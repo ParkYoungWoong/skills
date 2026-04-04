@@ -1,6 +1,6 @@
 {
   "name": "heropy-skills",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "type": "module",
   "description": "A collection of Claude Code skills by HEROPY. Includes project scaffolding, development workflows, and more.",
   "author": "ParkYoungWoong",
