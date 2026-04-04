@@ -1,13 +1,38 @@
 # heropy-skills
 
-HEROPY의 스킬 모음입니다.
+[HEROPY](https://heropy.dev)의 스킬 모음입니다.
 
-## react-vite-scaffold
+```bash
+npx skills add ParkYoungWoong/skills  
+
+  ◇  Select skills to install
+  │  react-next-scaffold, react-vite-scaffold, ...
+  │
+  ◇  Installation scope
+  │  Project
+  │
+  ◇  Installation method
+  │  Symlink
+  │
+  ◇  Proceed with installation?
+  │  Yes
+```
+
+상황에 맞게 스킬이 자동으로 감지되거나 다음과 같이 스킬을 직접 호출할 수 있습니다.
+
+```bash
+# Claude Code
+❯ /react-next-scaffold
+```
+
+## 스킬 목록
+
+### [react-vite-scaffold](./skills/react-vite-scaffold/SKILL.md)
 
 Vite 기반 React(CSR) 프로젝트를 스캐폴딩하거나, 기존 프로젝트의 누락된 설정을 자동 보완합니다.
 
 ```bash
-npx skills add ParkYoungWoong/heropy-skills --skill react-vite-scaffold
+npx skills add ParkYoungWoong/skills --skill react-vite-scaffold
 ```
 
 - Vite + React + TypeScript 프로젝트 스캐폴딩
@@ -21,12 +46,12 @@ npx skills add ParkYoungWoong/heropy-skills --skill react-vite-scaffold
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
 
-## react-next-scaffold
+### [react-next-scaffold](./skills/react-next-scaffold/SKILL.md)
 
 Next.js 기반 React(SSR) 프로젝트를 스캐폴딩하거나, 기존 프로젝트의 누락된 설정을 자동 보완합니다.
 
 ```bash
-npx skills add ParkYoungWoong/heropy-skills --skill react-next-scaffold
+npx skills add ParkYoungWoong/skills --skill react-next-scaffold
 ```
 
 - Next.js + React + TypeScript 프로젝트 스캐폴딩
