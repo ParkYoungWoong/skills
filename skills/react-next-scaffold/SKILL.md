@@ -134,7 +134,7 @@ export default eslintConfig
   "singleQuote": true,
   "singleAttributePerLine": true,
   "bracketSameLine": true,
-  "endOfLine": "lf",
+  "endOfLine": "auto",
   "trailingComma": "none",
   "arrowParens": "avoid",
   "plugins": ["prettier-plugin-tailwindcss"]
