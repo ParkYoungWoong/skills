@@ -65,12 +65,12 @@ npx skills add ParkYoungWoong/skills --skill react-next-scaffold
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
 
-### [skills-commit-with-version](./skills/skills-commit-with-version/SKILL.md)
+### [skill-commit](./skills/skill-commit/SKILL.md)
 
 커밋할 때 변경사항을 분석하여 적절한 커밋 메시지를 작성하고, 수정된 스킬의 버전을 자동으로 업데이트합니다.
 
 ```bash
-npx skills add ParkYoungWoong/skills --skill skills-commit-with-version
+npx skills add ParkYoungWoong/skills --skill skill-commit
 ```
 
 - 변경사항 분석 후 한국어 커밋 메시지 자동 생성

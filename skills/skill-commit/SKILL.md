@@ -1,10 +1,10 @@
 ---
-name: skills-commit-with-version
+name: skill-commit
 description: Use when committing changes in this project. Analyzes changes to generate appropriate commit messages and bumps skill versions in frontmatter when SKILL.md files are modified.
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Commit with Version

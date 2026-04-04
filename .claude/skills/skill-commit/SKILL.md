@@ -1,6 +1,6 @@
 ---
-name: skills-commit-with-version
+name: skill-commit
 description: Use when committing changes in this project. Analyzes changes to generate appropriate commit messages and bumps skill versions in frontmatter when SKILL.md files are modified.
 ---
 
-`@skills/skills-commit-with-version` 참조
+`@skills/skill-commit` 참조
