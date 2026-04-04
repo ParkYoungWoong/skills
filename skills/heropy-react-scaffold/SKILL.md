@@ -4,37 +4,7 @@ description: Use when initializing a new React project or when an existing React
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.0
-  pathPatterns:
-    - 'vite.config.*'
-    - 'next.config.*'
-    - 'package.json'
-  promptSignals:
-    phrases:
-      - 'react scaffold'
-      - 'react init'
-      - 'react 프로젝트'
-      - 'vite 프로젝트'
-      - 'next.js 프로젝트'
-      - '프로젝트 초기화'
-      - '프로젝트 시작'
-      - '스캐폴딩'
-  retrieval:
-    aliases:
-      - react scaffold
-      - react init
-      - react setup
-      - vite setup
-      - nextjs setup
-    intents:
-      - create react project
-      - initialize react project
-      - scaffold react app
-    entities:
-      - Vite
-      - Next.js
-      - React
-      - TanStack Query
+  version: 1.1.1
 ---
 
 # React Project Scaffold
