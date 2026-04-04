@@ -4,7 +4,7 @@ description: Use when initializing a new React project or when an existing React
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.2
+  version: 1.1.3
 ---
 
 # React Project Scaffold
