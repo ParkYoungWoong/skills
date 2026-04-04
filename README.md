@@ -4,24 +4,26 @@
 
 ```bash
 npx skills add ParkYoungWoong/skills  
+```
 
-  ◇  Select skills to install
-  │  react-next-scaffold, react-vite-scaffold, ...
-  │
-  ◇  Installation scope
-  │  Project
-  │
-  ◇  Installation method
-  │  Symlink
-  │
-  ◇  Proceed with installation?
-  │  Yes
+```bash
+◇  Select skills to install
+│  react-next-scaffold, react-vite-scaffold, ...
+│
+◇  Installation scope
+│  Project
+│
+◇  Installation method
+│  Symlink
+│
+◇  Proceed with installation?
+│  Yes
 ```
 
 상황에 맞게 스킬이 자동으로 감지되거나 다음과 같이 스킬을 직접 호출할 수 있습니다.
 
 ```bash
-# Claude Code
+# Claude Code 스킬 호출 예시:
 ❯ /react-next-scaffold
 ```
 
