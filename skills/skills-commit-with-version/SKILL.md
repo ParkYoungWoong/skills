@@ -4,7 +4,7 @@ description: Use when committing changes in this project. Analyzes changes to ge
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Commit with Version
