@@ -48,18 +48,6 @@ npx skills add ParkYoungWoong/skills --skill react-vite-scaffold
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
 
-### [skills-commit-with-version](./skills/skills-commit-with-version/SKILL.md)
-
-커밋할 때 변경사항을 분석하여 적절한 커밋 메시지를 작성하고, 수정된 스킬의 버전을 자동으로 업데이트합니다.
-
-```bash
-npx skills add ParkYoungWoong/skills --skill skills-commit-with-version
-```
-
-- 변경사항 분석 후 한국어 커밋 메시지 자동 생성
-- SKILL.md 수정 시 Semantic Versioning 기반 버전 자동 업데이트
-- 스킬 추가/수정/삭제 시 README.md 스킬 목록 자동 갱신
-
 ### [react-next-scaffold](./skills/react-next-scaffold/SKILL.md)
 
 Next.js 기반 React(SSR) 프로젝트를 스캐폴딩하거나, 기존 프로젝트의 누락된 설정을 자동 보완합니다.
@@ -76,3 +64,15 @@ npx skills add ParkYoungWoong/skills --skill react-next-scaffold
   - ESLint + Prettier (통합 구성)
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
+
+### [skills-commit-with-version](./skills/skills-commit-with-version/SKILL.md)
+
+커밋할 때 변경사항을 분석하여 적절한 커밋 메시지를 작성하고, 수정된 스킬의 버전을 자동으로 업데이트합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill skills-commit-with-version
+```
+
+- 변경사항 분석 후 한국어 커밋 메시지 자동 생성
+- SKILL.md 수정 시 Semantic Versioning 기반 버전 자동 업데이트
+- 스킬 추가/수정/삭제 시 README.md 스킬 목록 자동 갱신
