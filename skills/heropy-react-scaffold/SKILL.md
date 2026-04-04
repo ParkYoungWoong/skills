@@ -1,6 +1,6 @@
 ---
 name: heropy-react-scaffold
-description: Use when initializing a new React project or when an existing React project needs missing configuration (ESLint, Prettier, TanStack Query, Tailwind CSS, VSCode settings, path aliases). Supports Vite (CSR) and Next.js (SSR).
+description: Use when initializing a new React project or when an existing React project needs missing configuration (ESLint, Prettier, TanStack Query, Tailwind CSS, VSCode, Cursor, Antigravity settings, path aliases). Supports Vite (CSR) and Next.js (SSR).
 license: MIT
 metadata:
   author: ParkYoungWoong
