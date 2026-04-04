@@ -4,7 +4,7 @@ description: Use when committing changes in this project. Analyzes changes to ge
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.0.1
+  version: 1.1.0
 ---
 
 # Commit with Version
@@ -28,7 +28,17 @@ metadata:
 
 기본적으로 patch 버전을 올리되, 변경 규모에 따라 minor 또는 major로 판단한다.
 
-### 3단계: 커밋 메시지 작성
+### 3단계: README.md 갱신
+
+변경된 파일 중 `skills/*/SKILL.md`가 포함되어 있으면, 프로젝트 루트의 `README.md`도 함께 갱신한다.
+
+갱신 규칙:
+- **스킬 추가**: `## 스킬 목록` 섹션에 새 스킬의 항목을 추가한다 (제목, 설명, 설치 명령어, 주요 기능 목록)
+- **스킬 수정**: 해당 스킬의 설명이나 기능 목록이 변경되었으면 README.md의 내용도 일치하도록 수정한다
+- **스킬 삭제**: README.md에서 해당 스킬 항목을 제거한다
+- 기존 README.md의 포맷과 스타일을 유지한다
+
+### 4단계: 커밋 메시지 작성
 
 최근 커밋 로그(`git log`)의 스타일을 참고하여 커밋 메시지를 작성한다.
 
@@ -38,9 +48,9 @@ metadata:
 - 필요시 빈 줄 후 상세 설명 추가
 - 여러 스킬이 동시에 수정된 경우, 주요 변경 내용을 기준으로 메시지를 작성
 
-### 4단계: 커밋 실행
+### 5단계: 커밋 실행
 
-변경된 파일을 스테이징하고 커밋한다. 사용자가 푸시를 요청한 경우 푸시도 함께 실행한다.
+변경된 파일을 스테이징하고 커밋한다. README.md가 갱신된 경우 함께 포함한다. 사용자가 푸시를 요청한 경우 푸시도 함께 실행한다.
 
 ## 주의사항
 
