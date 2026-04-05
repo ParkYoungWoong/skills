@@ -6,6 +6,8 @@
 npx skills add ParkYoungWoong/skills  
 ```
 
+**설치 예시:**
+
 ```bash
 ◇  Select skills to install
 │  react-next-scaffold, react-vite-scaffold, ...
@@ -22,8 +24,9 @@ npx skills add ParkYoungWoong/skills
 
 상황에 맞게 스킬이 자동으로 감지되거나 다음과 같이 스킬을 직접 호출할 수 있습니다.
 
-```bash
-# Claude Code 스킬 호출 예시:
+**Claude Code 스킬 호출 예시:**
+
+```plaintext
 ❯ /react-next-scaffold
 ```
 
