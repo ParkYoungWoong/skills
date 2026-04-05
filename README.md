@@ -76,3 +76,17 @@ npx skills add ParkYoungWoong/skills --skill skill-commit
 - 변경사항 분석 후 한국어 커밋 메시지 자동 생성
 - SKILL.md 수정 시 Semantic Versioning 기반 버전 자동 업데이트
 - 스킬 추가/수정/삭제 시 README.md 스킬 목록 자동 갱신
+
+### [lighthouse](./skills/lighthouse/SKILL.md)
+
+Google Lighthouse를 로컬에서 실행하여 웹 페이지의 성능, 접근성, SEO 등을 분석하고 개선점을 제안합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill lighthouse
+```
+
+- LHCI CLI 자동 실행 (`@lhci/cli`, 헤드리스 Chrome)
+- 4개 카테고리 종합 분석 (Performance, Accessibility, Best Practices, SEO)
+- 카테고리별 구체적 개선점 제안
+- 프로젝트 프레임워크 자동 감지 (Next.js, Vite, Nuxt, Angular 등)
+- 사용자 확인 후 코드 수정 지원
