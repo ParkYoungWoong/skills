@@ -1,10 +1,10 @@
 ---
 name: react-vite-scaffold
-description: Use when initializing a new Vite + React (CSR) project or when an existing Vite React project needs missing configuration (ESLint, Prettier, TanStack Query, React Router, Zustand, Tailwind CSS, VSCode, Cursor, Antigravity settings, path aliases).
+description: (heropy) Use when initializing a new Vite + React (CSR) project or when an existing Vite React project needs missing configuration (ESLint, Prettier, TanStack Query, React Router, Zustand, Tailwind CSS, VSCode settings, path aliases).
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Vite React Project Scaffold

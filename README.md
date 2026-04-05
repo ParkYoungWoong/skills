@@ -68,18 +68,6 @@ npx skills add ParkYoungWoong/skills --skill react-next-scaffold
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
 
-### [skill-commit](./skills/skill-commit/SKILL.md)
-
-커밋할 때 변경사항을 분석하여 적절한 커밋 메시지를 작성하고, 수정된 스킬의 버전을 자동으로 업데이트합니다.
-
-```bash
-npx skills add ParkYoungWoong/skills --skill skill-commit
-```
-
-- 변경사항 분석 후 한국어 커밋 메시지 자동 생성
-- SKILL.md 수정 시 Semantic Versioning 기반 버전 자동 업데이트
-- 스킬 추가/수정/삭제 시 README.md 스킬 목록 자동 갱신
-
 ### [lighthouse](./skills/lighthouse/SKILL.md)
 
 Google Lighthouse를 로컬에서 실행하여 웹 페이지의 성능, 접근성, SEO 등을 분석하고 개선점을 제안합니다.

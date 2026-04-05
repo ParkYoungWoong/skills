@@ -1,10 +1,10 @@
 ---
 name: lighthouse
-description: Use when analyzing web page performance, accessibility, best practices, or SEO using Google Lighthouse. Runs LHCI CLI locally, parses results, and suggests improvements with optional code fixes.
+description: (heropy) Use when analyzing web page performance, accessibility, best practices, or SEO using Google Lighthouse. Runs LHCI CLI locally, parses results, and suggests improvements with optional code fixes.
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Lighthouse Audit

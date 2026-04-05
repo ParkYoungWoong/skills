@@ -1,10 +1,10 @@
 ---
 name: react-next-scaffold
-description: Use when initializing a new Next.js (SSR) project or when an existing Next.js project needs missing configuration (ESLint, Prettier, TanStack Query, Tailwind CSS, VSCode, Cursor, Antigravity settings, path aliases).
+description: (heropy) Use when initializing a new Next.js (SSR) project or when an existing Next.js project needs missing configuration (ESLint, Prettier, TanStack Query, Tailwind CSS, VSCode settings, path aliases).
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Next.js React Project Scaffold
