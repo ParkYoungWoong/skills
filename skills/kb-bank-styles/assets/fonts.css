@@ -1,0 +1,60 @@
+/*
+ * KBFG (KB금융체) 웹폰트 — KB금융그룹 전용 서체
+ *
+ * 이 스킬은 KB금융그룹 내부 사용 전제로 KBFG를 기본 폰트로 사용한다.
+ * 외부 CDN(font.co.kr)의 woff 파일을 @font-face로 참조한다.
+ * 공식 안내: https://www.kbfg.com/kor/about/corporate/font.htm
+ */
+
+/* === KBFG Text (본문) === */
+@font-face {
+  font-family: 'KBFG Text';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGTextL.woff') format('woff');
+}
+@font-face {
+  font-family: 'KBFG Text';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGTextM.woff') format('woff');
+}
+@font-face {
+  font-family: 'KBFG Text';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGTextB.woff') format('woff');
+}
+
+/* === KBFG Display (제목) === */
+@font-face {
+  font-family: 'KBFG Display';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayL.woff') format('woff');
+}
+@font-face {
+  font-family: 'KBFG Display';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayM.woff') format('woff');
+}
+@font-face {
+  font-family: 'KBFG Display';
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayMI.woff') format('woff');
+}
+@font-face {
+  font-family: 'KBFG Display';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayB.woff') format('woff');
+}

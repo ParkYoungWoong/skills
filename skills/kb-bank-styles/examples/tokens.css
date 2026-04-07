@@ -1,0 +1,63 @@
+/* KB Bank Style — Design Tokens (Tailwind v4 @theme) */
+
+/* KBFG 웹폰트 (KB금융그룹 전용 서체) */
+@import url('../assets/fonts.css');
+
+@theme {
+  --font-sans:
+    'KBFG Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display:
+    'KBFG Display', 'KBFG Text', -apple-system, system-ui, sans-serif;
+
+  /* === Brand === */
+  --color-kb-yellow: #ffbc00;
+  --color-kb-yellow-strong: #ffcc00;
+  --color-kb-yellow-soft: #fff7db;
+  --color-kb-dark: #60584c;
+  --color-kb-black: #1a1a1a;
+
+  /* === Surface (Mobile preset) === */
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-line: #eef0f3;
+  --color-line-2: #e5e8ec;
+
+  /* === Text === */
+  --color-ink: #191f28;
+  --color-ink-2: #4e5968;
+  --color-ink-3: #8b95a1;
+  --color-ink-4: #b0b8c1;
+
+  /* === Semantic === */
+  --color-positive: #1ec894;
+  --color-negative: #f04452;
+  --color-warn: #ffb020;
+  --color-info: #3182f6;
+
+  /* === Category palette === */
+  --color-cat-1: #ffbc00;
+  --color-cat-2: #ff8a3d;
+  --color-cat-3: #1ec894;
+  --color-cat-4: #5d7bff;
+  --color-cat-5: #b795ff;
+
+  /* === Radius === */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* === Shadow === */
+  --shadow-card: 0 2px 10px rgba(25, 31, 40, 0.04);
+  --shadow-pop: 0 8px 24px rgba(25, 31, 40, 0.08);
+}
+
+html,
+body,
+#root {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+}
