@@ -81,3 +81,17 @@ npx skills add ParkYoungWoong/skills --skill lighthouse
 - 카테고리별 구체적 개선점 제안
 - 프로젝트 프레임워크 자동 감지 (Next.js, Vite, Nuxt, Angular 등)
 - 사용자 확인 후 코드 수정 지원
+
+### [kb-bank-styles](./skills/kb-bank-styles/SKILL.md)
+
+KB국민은행 / KB스타뱅킹의 시각 언어를 따라 한국 금융권(뱅킹 앱·웹) UI를 만드는 스타일 가이드입니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill kb-bank-styles
+```
+
+- 디자인 토큰 (컬러·타이포·스페이싱·라운딩·그림자)
+- 모바일(KB스타뱅킹) / 웹(kbstar.com) 두 가지 프리셋
+- 컴포넌트 스니펫 (Button, AccountCard, AmountInput, BottomSheet 등)
+- 홈/송금/내역 페이지 템플릿
+- Pretendard 폰트 및 한국 금융권 UX 컨벤션 반영
