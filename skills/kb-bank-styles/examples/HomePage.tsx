@@ -5,7 +5,7 @@ import QuickMenuGrid from './QuickMenuGrid'
 
 /**
  * KB 스타일 모바일 뱅킹 홈 페이지 풀 템플릿
- * - examples/tokens.css 가 프로젝트에 import 되어 있어야 한다.
+ * - assets/tokens.css 가 프로젝트에 import 되어 있어야 한다.
  */
 export default function HomePage() {
   return (

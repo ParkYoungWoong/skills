@@ -1,13 +1,15 @@
 /* KB Bank Style — Design Tokens (Tailwind v4 @theme) */
 
 /* KBFG 웹폰트 (KB금융그룹 전용 서체) */
-@import url('../assets/fonts.css');
+@import url('./fonts.css');
 
 @theme {
   --font-sans:
-    'KBFG Text', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    'KBFG Text', 'Pretendard Variable', 'Pretendard', -apple-system,
+    BlinkMacSystemFont, system-ui, sans-serif;
   --font-display:
-    'KBFG Display', 'KBFG Text', -apple-system, system-ui, sans-serif;
+    'KBFG Display', 'KBFG Text', 'Pretendard Variable', 'Pretendard',
+    -apple-system, system-ui, sans-serif;
 
   /* === Brand === */
   --color-kb-yellow: #ffbc00;
