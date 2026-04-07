@@ -4,7 +4,7 @@ description: (heropy) Use when initializing a new Vite + React (CSR) project or 
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.1.1
+  version: 1.1.2
 ---
 
 # Vite React Project Scaffold
@@ -284,6 +284,10 @@ export default defineConfig([
 
    createRoot(document.getElementById('root')!).render(<Router />)
    ```
+
+6. 더 이상 사용하지 않는 기본 파일을 제거:
+   - `src/App.tsx` 또는 `src/App.jsx`
+   - `src/App.css`
 
 ### 11단계: Zustand
 
