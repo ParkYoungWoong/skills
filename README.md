@@ -68,6 +68,22 @@ npx skills add ParkYoungWoong/skills --skill react-next-scaffold
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
 
+### [react-vite-to-next-migration](./skills/react-vite-to-next-migration/SKILL.md)
+
+Vite + React(TS) 프로젝트를 Next.js(App Router, v16) 프로젝트로 마이그레이션합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill react-vite-to-next-migration
+```
+
+- Vite 전용 파일 제거 및 Next.js 설정 파일 생성 (`next.config.ts`, `tsconfig.json`)
+- 진입점 변환 (`index.html` / `main.tsx` → `src/app/layout.tsx`)
+- React Router → App Router 디렉토리 기반 라우팅 변환
+- React Router 훅/`<Link>` → `next/navigation`, `next/link` 치환
+- `VITE_*` 환경 변수 → `NEXT_PUBLIC_*` 변환 및 `import.meta.env.*` 치환
+- 클라이언트/서버 컴포넌트 자동 판별 (`'use client'` 추가)
+- Tailwind CSS / TanStack Query / Zustand 사용 시 자동 처리
+
 ### [lighthouse](./skills/lighthouse/SKILL.md)
 
 Google Lighthouse를 로컬에서 실행하여 웹 페이지의 성능, 접근성, SEO 등을 분석하고 개선점을 제안합니다.
