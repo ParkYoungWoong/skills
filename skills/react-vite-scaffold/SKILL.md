@@ -4,7 +4,7 @@ description: (heropy) Use when initializing a new Vite + React (CSR) project or 
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.2.0
+  version: 1.2.1
 ---
 
 # Vite React Project Scaffold
@@ -133,13 +133,14 @@ resolve: {
 ```json
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   }
 }
 ```
+
+> TypeScript v5 이하(`tsc --version`으로 확인)인 경우, `"baseUrl": "."` 을 `paths` 위에 추가한다.
 
 ### 6단계: ESLint + Prettier 구성 [조건: prettier 패키지 또는 eslint-plugin-prettier 미설치 시]
 

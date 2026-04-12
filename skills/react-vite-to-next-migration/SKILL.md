@@ -4,7 +4,7 @@ description: (heropy) Use when migrating an existing Vite + React (TypeScript) p
 license: MIT
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Vite React → Next.js App Router 마이그레이션
@@ -108,7 +108,6 @@ export default nextConfig
     "jsx": "preserve",
     "incremental": true,
     "plugins": [{ "name": "next" }],
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -117,6 +116,8 @@ export default nextConfig
   "exclude": ["node_modules"]
 }
 ```
+
+> TypeScript v5 이하(`tsc --version`으로 확인)인 경우, `"baseUrl": "."` 을 `paths` 위에 추가한다.
 
 > 기존 `tsconfig.app.json`, `tsconfig.node.json`은 삭제한다.
 
