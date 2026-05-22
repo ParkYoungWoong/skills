@@ -5,7 +5,7 @@ model: haiku
 effort: max
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Zustand 사용 가이드
@@ -184,7 +184,7 @@ const [count, increase, decrease] = useCountStore(
 
 ## 미들웨어
 
-스토어는 미들웨어로 기능을 확장한다. **합성 순서**가 중요하다.
+스토어는 미들웨어로 기능을 확장한다. 공식 문서는 합성 순서가 중요하지 않다고 제안하지만, `combine` 미들웨어를 가장 안쪽에 두고 `devtools` 미들웨어를 가장 바깥에 두는 것이 권장된다.
 
 ```ts
 // 단일
@@ -193,20 +193,6 @@ create(미들웨어(콜백))
 // 다중 — 안에서 바깥 순으로 적용된다
 create(devtools(persist(subscribeWithSelector(immer(combine(state, actions))))))
 ```
-
-### 일반적인 합성 순서 (블로그 최종 예제 기준)
-
-```
-devtools(persist(subscribeWithSelector(immer(combine(...)))))
-```
-
-블로그도 "일부 중첩 순서가 중요할 수 있다"고만 명시하며, 위 순서는 블로그의 최종 예제이자 커뮤니티에서 가장 흔히 쓰이는 조합이다.
-
-- `devtools` — **가장 바깥**. 그래야 모든 액션이 DevTools에 잡힌다.
-- `persist` — devtools 바로 안쪽. 직렬화는 최종 상태에 대해 수행.
-- `subscribeWithSelector` — 선택적 구독을 활성화.
-- `immer` — `set` 콜백에서 직접 변경(mutation) 가능하게.
-- `combine` — **가장 안쪽**. 첫 인수는 상태, 두 번째는 액션 함수.
 
 ### `combine` — 상태 타입 추론
 
