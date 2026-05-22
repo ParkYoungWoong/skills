@@ -1,10 +1,11 @@
 ---
 name: react-next-scaffold
 description: (heropy) Use when initializing a new Next.js (SSR) project or when an existing Next.js project needs missing configuration (ESLint, Prettier, TanStack Query, Tailwind CSS, VSCode settings, path aliases).
-license: MIT
+model: haiku
+effort: max
 metadata:
   author: ParkYoungWoong
-  version: 1.2.1
+  version: 1.2.2
 ---
 
 # Next.js React Project Scaffold

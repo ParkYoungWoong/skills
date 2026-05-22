@@ -10,7 +10,7 @@ npx skills add ParkYoungWoong/skills
 
 ```bash
 ◇  Select skills to install
-│  react-next-scaffold, react-vite-scaffold, ...
+│  react-vite-scaffold, zustand-use,...
 │
 ◇  Installation scope
 │  Project
@@ -83,6 +83,53 @@ npx skills add ParkYoungWoong/skills --skill react-vite-to-next-migration
 - `VITE_*` 환경 변수 → `NEXT_PUBLIC_*` 변환 및 `import.meta.env.*` 치환
 - 클라이언트/서버 컴포넌트 자동 판별 (`'use client'` 추가)
 - Tailwind CSS / TanStack Query / Zustand 사용 시 자동 처리
+
+### [react-router-use](./skills/react-router-use/SKILL.md)
+
+기존 React(Vite/CSR) 프로젝트에 React Router 7 **Data Mode**를 도입하거나, 라우트/레이아웃/내비게이션/Loader 등 부분 기능을 추가합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill react-router-use
+```
+
+- React Router 7 Data Mode (`createBrowserRouter` + `RouterProvider`) 도입
+- 기본 라우터 골격 자동 생성 (Layout, Header, Home/About 페이지)
+- `react-router-dom` v6 → v7 마이그레이션 지원 (사용자 동의 후)
+- 동적 세그먼트 / 중첩 라우팅 / 404 페이지
+- 보호된 경로 (Loader + `redirect`)
+- 페이지 지연 로딩 (`lazy` + `Suspense` + `ErrorBoundary`)
+- 페이지 전환 애니메이션 (Framer Motion)
+- SPA 호스팅 리라이트 설정 (Vercel / Netlify / Firebase)
+
+### [tanstack-react-query-use](./skills/tanstack-react-query-use/SKILL.md)
+
+React / Next.js 프로젝트에서 TanStack Query(v5)로 서버 데이터를 가져오고 캐싱·동기화하는 코드를 작성합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill tanstack-react-query-use
+```
+
+- `useQuery` / `useMutation` / `useInfiniteQuery` 표준 사용 패턴
+- `queryKey` 규칙 및 `staleTime` / `gcTime` 캐시 전략
+- 낙관적 업데이트(Optimistic Update) 패턴
+- 무한 스크롤 / 페이지네이션 구현
+- Next.js App Router 환경 지원 (`useSuspenseQuery` + SSR)
+- ReactQueryDevtools 및 `@tanstack/eslint-plugin-query` 설정
+
+### [zustand-use](./skills/zustand-use/SKILL.md)
+
+React 프로젝트에서 Zustand로 전역 상태(스토어)를 설계·작성하는 표준 패턴을 따릅니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill zustand-use
+```
+
+- 단일 파일(`src/store/<이름>.ts`) 스토어 정의, `use이름Store` 명명 규칙
+- 액션 분리(`actions` 객체) 패턴, 상태 초기화/삭제 패턴
+- 선택자(Selector) 사용 규칙 및 `useShallow`로 다중 값 구독
+- 미들웨어 합성 순서: `devtools(persist(subscribeWithSelector(immer(combine(...)))))`
+- TypeScript: 직접 타입 작성 vs `combine` 추론
+- 비동기 액션 / 컴포넌트 외부 사용 패턴
 
 ### [lighthouse](./skills/lighthouse/SKILL.md)
 
