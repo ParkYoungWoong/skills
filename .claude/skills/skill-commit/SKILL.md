@@ -1,10 +1,10 @@
 ---
 name: skill-commit
 description: (heropy) Use when committing changes in this project. Analyzes changes to generate appropriate commit messages and bumps skill versions in frontmatter when SKILL.md files are modified.
-license: MIT
+model: haiku
 metadata:
   author: ParkYoungWoong
-  version: 1.1.1
+  version: 1.1.2
 ---
 
 # Commit with Version
