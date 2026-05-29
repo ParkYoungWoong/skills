@@ -128,7 +128,8 @@ npx skills add ParkYoungWoong/skills --skill zustand-use
 - 액션 분리(`actions` 객체) 패턴, 상태 초기화/삭제 패턴
 - 선택자(Selector) 사용 규칙 및 `useShallow`로 다중 값 구독
 - 미들웨어 합성 순서: `devtools(persist(subscribeWithSelector(immer(combine(...)))))`
-- TypeScript: 직접 타입 작성 vs `combine` 추론
+- TypeScript: `combine` 추론 방식 / JavaScript: 순수 `create` 최소 템플릿
+- 트리거 입력('OO 스토어 생성')으로 스토어 폴더 탐색/생성 및 기본 템플릿 파일 자동 생성
 - 비동기 액션 / 컴포넌트 외부 사용 패턴
 
 ### [lighthouse](./skills/lighthouse/SKILL.md)

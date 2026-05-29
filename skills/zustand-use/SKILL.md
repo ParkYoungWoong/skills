@@ -1,11 +1,11 @@
 ---
 name: zustand-use
-description: (heropy) React 프로젝트에서 Zustand(주스탠드)로 전역 상태(스토어)를 설계·작성할 때 사용한다. 사용자가 "zustand", "주스탠드", "전역 상태", "스토어 분리", "상태 관리 라이브러리", "create 함수", "useShallow", "persist/immer/devtools 미들웨어"를 언급하거나, React 컴포넌트 간 prop drilling을 해소하려 할 때 반드시 이 스킬을 따른다. 스토어 정의 패턴(액션 분리·초기화·삭제), 선택자 사용 규칙, 미들웨어 합성 순서, TypeScript 작성법까지 포함한다.
+description: (heropy) React 프로젝트에서 Zustand(주스탠드)로 전역 상태(스토어)를 설계, 작성할 때 사용한다. 사용자가 "zustand", "주스탠드", "전역 상태", "스토어 분리", "스토어 생성", "스토어 만들어 줘", "OO 스토어 생성", "상태 관리 라이브러리", "create 함수", "useShallow", "persist/immer/devtools 미들웨어"를 언급하거나, React 컴포넌트 간 prop drilling을 해소하려 할 때 반드시 이 스킬을 따른다. 스토어 정의 패턴(액션 분리, 초기화, 삭제), 선택자 사용 규칙, 미들웨어 합성 순서, TypeScript 작성법, 트리거 입력으로 스토어 파일을 자동 생성하는 절차까지 포함한다.
 model: haiku
 effort: max
 metadata:
   author: ParkYoungWoong
-  version: 1.0.1
+  version: 1.0.2
 ---
 
 # Zustand 사용 가이드
@@ -22,6 +22,58 @@ Zustand는 작고 빠른 React 상태 관리 라이브러리다. `create` 함수
 4. **여러 값을 한 번에 꺼낼 때는 반드시 `useShallow`** (`zustand/shallow`)로 감싼다. 그냥 객체/배열을 반환하면 매 렌더마다 새 참조라, React가 `getSnapshot should be cached to avoid an infinite loop` 경고를 띄우며 리렌더링이 반복된다.
 5. **액션은 `actions` 객체로 모아둔다.** 컴포넌트가 액션 묶음을 한 번에 가져오기 쉽고, 상태 초기화 시 액션을 분리해 다루기 좋다. 단, `persist` 미들웨어를 쓸 때는 `actions`가 JSON 직렬화되지 않으므로 이 구조를 풀어야 한다(아래 [스토리지](#persist--스토리지에-상태-저장) 참고).
 6. **TypeScript는 두 가지 방식.** 직접 타입 작성(`create<State & Actions>()`) 또는 `combine` 미들웨어로 추론. 새 스토어는 우선 `combine` + `immer` 조합을 기본으로 검토한다.
+
+## 스토어 파일 자동 생성 (트리거 입력)
+
+사용자가 **"OO 스토어 생성"**, **"OO 스토어 만들어 줘"** 처럼 스토어 이름과 생성 의도를 함께 말하면(예: "count 스토어 생성", "user 스토어 만들어 줘", "장바구니 스토어 생성"), 아래 절차로 **스토어 파일을 직접 만든다**. 코드 설명만 하지 말고 실제로 파일을 생성하라.
+
+### 절차
+
+1. **이름 정규화.** 트리거에서 스토어 이름을 뽑아 카멜케이스로 만든다. 파일명은 그 이름, 훅 이름은 `use` + PascalCase + `Store`.
+   - `count` 스토어 생성 → 파일 `count`, 훅 `useCountStore`
+   - `user profile` 스토어 → 파일 `userProfile`, 훅 `useUserProfileStore`
+   - 한국어 이름이면 영문으로 옮긴다("장바구니" → `cart`). 적절한 영문이 모호하면 사용자에게 확인한다.
+
+2. **언어 판별.** 프로젝트 루트(또는 가까운 상위)에 `tsconfig.json`이 있거나 `src` 아래 `.ts`/`.tsx` 파일이 있으면 **TypeScript**, 아니면 **JavaScript**로 본다. TypeScript면 확장자 `.ts`, 아니면 `.js`.
+
+3. **스토어 폴더 탐색.** 다음 순서로 기존 폴더를 찾아 거기에 생성한다: `src/store` → `src/stores` → `src/state`. 모두 없으면 **`src/store`를 새로 만들어** 거기에 생성한다. (`src`가 없는 비표준 구조면 사용자에게 위치를 확인한다.)
+
+4. **충돌 확인.** 같은 이름의 파일이 이미 있으면 덮어쓰지 말고 사용자에게 알린다.
+
+5. **템플릿 작성.** 아래 기본 템플릿(언어별)을 채워 파일을 만든다. 생성 후 파일 경로와 훅 이름을 한 줄로 보고한다.
+
+### 기본 템플릿 (TypeScript) - `combine` 사용
+
+TypeScript 프로젝트는 타입을 직접 쓰지 않고 `combine`으로 추론시키는 것을 기본으로 한다.
+
+```ts
+import { create } from 'zustand'
+import { combine } from 'zustand/middleware'
+
+export const useCountStore = create(
+  combine(
+    {
+      count: 0
+    },
+    () => ({
+      increase() {}
+    })
+  )
+)
+```
+
+### 기본 템플릿 (JavaScript)
+
+JavaScript에는 추론할 타입이 없으므로 `combine` 없이 순수 `create`로 만든다.
+
+```js
+import { create } from 'zustand'
+
+export const useCountStore = create(() => ({
+  count: 0,
+  increase() {}
+}))
+```
 
 ## 설치
 
