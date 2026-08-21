@@ -133,6 +133,59 @@ npx skills add ParkYoungWoong/skills --skill zustand-use
 - 트리거 입력('OO 스토어 생성')으로 스토어 폴더 탐색/생성 및 기본 템플릿 파일 자동 생성
 - 비동기 액션 / 컴포넌트 외부 사용 패턴
 
+### [vue-vite-scaffold](./skills/vue-vite-scaffold/SKILL.md)
+
+Vite 기반 Vue 3 프로젝트를 스캐폴딩하거나, 기존 프로젝트의 누락된 설정을 자동 보완합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill vue-vite-scaffold
+```
+
+- Vite 최소 템플릿 / Official Vue Starter 두 가지 생성 경로 지원
+- 기존 프로젝트의 누락된 설정 자동 감지 및 보완
+- 기본 포함 항목:
+  - Tailwind CSS
+  - ESLint(`eslint-plugin-vue`, `@vue/eslint-config-typescript`) + Prettier
+  - 경로 별칭 (`@/*`)
+  - `.vscode/settings.json` (저장 시 자동 포매팅)
+  - `vue-tsc` 타입체크 스크립트
+- 공식 스타터의 oxlint 버전 충돌 및 ESLint 중복 보고 해결
+- Vue 코딩 규칙 (`script setup`, `ref` 우선, 컴포저블, `scoped` 스타일)
+- Composition API / 컴포넌트 API 상세 가이드는 `references/`로 분리
+
+### [vue-router-use](./skills/vue-router-use/SKILL.md)
+
+기존 Vue 3(Vite) 프로젝트에 Vue Router 5를 도입하거나, 라우트/레이아웃/내비게이션 등 부분 기능을 추가합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill vue-router-use
+```
+
+- `createRouter` + `createWebHistory` 기본 라우터 골격 자동 생성
+- 레이아웃 제공자 패턴 (`meta.layout` + 동적 컴포넌트)
+- 스크롤 복원 (`scrollBehavior`)
+- 동적 경로 / 쿼리스트링 / 중첩 경로 / 404 페이지
+- 내비게이션 가드 (인증, 게스트 전용, `RouteMeta` 확장)
+- 페이지 지연 로딩 및 로딩 표시
+- 페이지 전환 애니메이션 (`<Transition>`)
+- 파일 기반 라우팅 (Vue Router 5, `definePage`)
+- SPA 호스팅 리라이트 설정 (Vercel / Netlify / Firebase)
+
+### [pinia-use](./skills/pinia-use/SKILL.md)
+
+Vue 프로젝트에서 Pinia로 전역 상태(스토어)를 설계·작성하는 표준 패턴을 따릅니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill pinia-use
+```
+
+- 단일 파일(`src/stores/<이름>.ts`) 스토어 정의, `use이름Store` 명명 규칙
+- 옵션 스토어 기본, 셋업 스토어 선택 기준
+- `storeToRefs`로 반응성을 유지한 구조 분해
+- 인스턴스 멤버 활용 (`$patch`, `$subscribe`, `$onAction`, `$reset`, `$dispose`)
+- 셋업 스토어에서 `$reset`을 직접 정의하는 패턴
+- 트리거 입력('OO 스토어 생성')으로 스토어 폴더 탐색/생성 및 기본 템플릿 파일 자동 생성
+
 ### [lighthouse](./skills/lighthouse/SKILL.md)
 
 Google Lighthouse를 로컬에서 실행하여 웹 페이지의 성능, 접근성, SEO 등을 분석하고 개선점을 제안합니다.
