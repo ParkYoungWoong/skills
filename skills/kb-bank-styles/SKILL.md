@@ -1,6 +1,11 @@
 ---
 name: kb-bank-styles
-description: KB국민은행 / KB스타뱅킹의 시각 언어를 따라 한국 금융권(뱅킹 앱·웹) UI를 만드는 스타일 가이드. "KB 스타일", "국민은행 스타일", "한국 뱅킹 UI", "한국 금융권 UI" 같은 요청에 사용한다. 토큰(컬러·타이포·스페이싱)·컴포넌트 스니펫·홈/송금/내역 페이지 템플릿을 제공한다.
+description: (heropy) KB국민은행 / KB스타뱅킹의 시각 언어를 따라 한국 금융권(뱅킹 앱·웹) UI를 만드는 스타일 가이드. "KB 스타일", "국민은행 스타일", "한국 뱅킹 UI", "한국 금융권 UI" 같은 요청에 사용한다. 토큰(컬러·타이포·스페이싱)·컴포넌트 스니펫·홈/송금/내역 페이지 템플릿을 제공한다.
+model: sonnet
+effort: high
+metadata:
+  author: ParkYoungWoong
+  version: 1.0.0
 ---
 
 # KB Bank Style Guide (KB국민은행 / KB스타뱅킹 UI)
@@ -97,31 +102,49 @@ KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)�
 
 ## 4. 타이포그래피
 
-이 스킬은 **KB금융그룹 내부 사용**을 전제로 하며, KB금융체(**KBFG Display / KBFG Text**)를 **기본 폰트로 사용한다.**
+**기본 폰트는 Pretendard다.** (OFL-1.1)
+
+KB금융체(**KBFG Display / KBFG Text**)는 KB금융그룹 전용 서체이고 공개된 웹 임베딩 허가 문구가 없다. 따라서 이 스킬은 KBFG를 원격 CDN에서 불러오지 않는다. 정식 사용 권한과 폰트 파일을 확보한 경우에만 `assets/fonts.css`의 옵트인 블록을 활성화한다.
 
 - **KBFG Display** (제목): Bold / Medium / Medium Italic / Light
-- **KBFG Text** (본문): Bold / Medium / Light — 본문/숫자/UI 전반의 표준
+- **KBFG Text** (본문): Bold / Medium / Light. 본문/숫자/UI 전반의 표준
 
-폰트는 `examples/tokens.css` 안에서 `assets/fonts.css`(KBFG 웹폰트 `@font-face`)를 자동 import하며, `--font-sans` / `--font-display` 토큰이 KBFG를 직접 가리킨다. 폴백은 시스템 폰트만 둔다.
+`assets/tokens.css`는 `assets/fonts.css`를 자동 import하고, `--font-sans` / `--font-display`가 KBFG를 스택 맨 앞에 둔다. 옵트인 블록을 켜지 않으면 KBFG는 해석되지 않고 자동으로 Pretendard가 사용된다. 즉 옵트인은 `fonts.css`의 주석 해제 한 단계로 끝나고 토큰은 손대지 않는다.
 
 ```css
 @theme {
-  --font-sans:    'KBFG Text', -apple-system, system-ui, sans-serif;
-  --font-display: 'KBFG Display', 'KBFG Text', -apple-system, system-ui, sans-serif;
+  --font-sans:
+    'KBFG Text', 'Pretendard Variable', 'Pretendard', -apple-system,
+    BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display:
+    'KBFG Display', 'KBFG Text', 'Pretendard Variable', 'Pretendard',
+    -apple-system, system-ui, sans-serif;
 }
 ```
 
-**타입 스케일 (모바일 프리셋)**
+제목(`<h1>`~`<h3>`)에는 `font-display`를 붙인다. 금액과 숫자는 제목이라도 본문 폰트(`font-sans`)를 그대로 쓴다.
 
-| 토큰 | 크기 / 줄간 / 굵기 | 용도 |
+**타입 스케일**
+
+`assets/tokens.css`가 `--text-*` 토큰으로 정의하므로 `text-display-1` 처럼 유틸리티로 바로 쓴다. 토큰은 크기와 줄간만 정하고, 굵기는 `font-bold` / `font-semibold` / `font-medium`으로 컴포넌트에서 명시한다.
+
+| 유틸리티 | 크기 / 줄간 | 용도 |
 |---|---|---|
-| display-1 | 36 / 1.1 / 700 | 큰 잔액 ("12,442,910원") |
-| display-2 | 28 / 1.2 / 700 | 페이지 헤딩 ("안녕하세요, 이수진님") |
-| heading | 18 / 1.4 / 700 | 섹션 타이틀 |
-| body | 15 / 1.55 / 500 | 본문 |
-| body-strong | 15 / 1.55 / 700 | 거래 금액·계좌명 |
-| caption | 12 / 1.4 / 500 | 메타·시간·계좌번호 |
-| micro | 11 / 1.4 / 600 | 배지·태그 |
+| `text-display-1` | 40 / 1.1 | 메인 잔액, 금액 입력 |
+| `text-display-2` | 32 / 1.15 | 영수증 금액 |
+| `text-display-3` | 28 / 1.2 | 소비 합계 |
+| `text-headline` | 24 / 1.3 | 페이지 인사말 |
+| `text-keypad` | 22 / 1.2 | 보안 키패드 숫자 |
+| `text-title` | 20 / 1.35 | 송금 수취인 |
+| `text-heading` | 18 / 1.4 | 섹션 타이틀, 시트 제목 |
+| `text-subhead` | 16 / 1.5 | 서브 섹션, 큰 버튼 |
+| `text-body` | 15 / 1.55 | 본문, 거래 금액 |
+| `text-body-sm` | 14 / 1.5 | 보조 본문 |
+| `text-label` | 13 / 1.45 | 리스트 라벨, 범례 |
+| `text-caption` | 12 / 1.4 | 메타, 시간, 계좌번호 |
+| `text-micro` | 11 / 1.4 | 배지, 태그 |
+
+카드 브랜딩 각인 같은 일회성 크기는 `text-[10px]`처럼 임의값을 써도 된다. 반복해서 쓰이기 시작하면 토큰으로 승격한다.
 
 숫자는 항상 `tabular-nums`. 금액은 `font-bold` + 천단위 콤마 + `원` 접미사.
 
@@ -135,9 +158,15 @@ KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)�
 | `--radius-md` | `12px` | 입력, 중간 카드 |
 | `--radius-lg` | `16px` | 표준 카드 |
 | `--radius-xl` | `20px` | 메인 잔액 카드 |
+| `--radius-2xl` | `24px` | 바텀시트 상단 |
 | `--radius-full` | `9999px` | 필터 칩, 아바타 |
 | `--shadow-card` | `0 2px 10px rgba(25,31,40,0.04)` | 표준 카드 |
-| `--shadow-pop` | `0 8px 24px rgba(25,31,40,0.08)` | 모달, 토스트 |
+| `--shadow-pop` | `0 8px 24px rgba(25,31,40,0.08)` | 모달, 팝오버 |
+| `--shadow-sheet` | `0 -8px 24px rgba(25,31,40,0.08)` | 바텀시트 (위로 뜨는 그림자) |
+| `--shadow-toast` | `0 8px 24px rgba(25,31,40,0.2)` | 토스트 |
+| `--shadow-float` | `0 8px 24px rgba(25,31,40,0.12)` | 카드 플로팅 |
+
+라운딩과 그림자는 임의값(`shadow-[0_2px_10px_...]`)으로 쓰지 말고 반드시 위 토큰의 유틸리티(`rounded-lg`, `shadow-card`)를 쓴다. Tailwind가 `--radius-2xl`을 기본 16px로 두기 때문에 재정의하지 않으면 `rounded-xl`(20px)이 `rounded-2xl`보다 커지는 역전이 생긴다.
 
 레이아웃 거터: 모바일 24px, 웹 데스크톱 max-width 1200px + 24~32px 패딩.
 세로 간격은 24px(섹션 간) / 16px(카드 내부) / 12px(리스트 행) 기준.
@@ -151,7 +180,7 @@ KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)�
 **기본 (홈/리스트)**
 | 파일 | 설명 |
 |---|---|
-| `examples/tokens.css` | `@theme` 토큰 (앱에 그대로 import 가능) |
+| `assets/tokens.css` | `@theme` 토큰 (앱에 그대로 import 가능) |
 | `examples/Button.tsx` | Primary(KB옐로우) / Secondary / Ghost / Danger 변형 |
 | `examples/AccountCard.tsx` | 계좌 잔액 카드 (송금/내역/ATM 액션 버튼 포함) |
 | `examples/TransactionItem.tsx` | 거래 1행 (입금·출금·자동이체) |
@@ -172,8 +201,8 @@ KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)�
 | 파일 | 설명 |
 |---|---|
 | `examples/VirtualCard.tsx` | 가상 카드 (번호 마스킹 토글) |
-| `examples/SpendingBar.tsx` | 멀티 세그먼트 소비 바 + 카테고리 범례 |
-| `examples/CategoryDonut.tsx` | SVG 도넛 차트 (의존성 없음) |
+| `examples/SpendingBar.tsx` | 멀티 세그먼트 소비 바 + 카테고리 범례. `CategoryTone`(1~5) 타입을 export한다 |
+| `examples/CategoryDonut.tsx` | SVG 도넛 차트 (의존성 없음). 색은 `CategoryTone`으로 지정한다 |
 
 **상태·약관 (Feedback / Forms)**
 | 파일 | 설명 |
@@ -181,7 +210,9 @@ KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)�
 | `examples/Feedback.tsx` | `EmptyState`, `Skeleton`, `AccountCardSkeleton`, `Toast` 묶음 export |
 | `examples/TermsAccordion.tsx` | 약관 동의 (필수/선택, 전체동의 토글) |
 
-각 파일은 최소 의존성으로 작성되어 있고, `examples/tokens.css`만 import하면 그대로 동작한다.
+각 파일은 최소 의존성으로 작성되어 있고, `assets/tokens.css`만 import하면 그대로 동작한다.
+
+카테고리 색은 `bg-cat-1` 같은 클래스 문자열을 런타임에 조립하지 않는다. Tailwind v4는 소스에 리터럴로 등장한 클래스만 생성하므로, `SpendingBar.tsx`의 `TONE_BG` / `CategoryDonut.tsx`의 `TONE_COLOR`처럼 리터럴 매핑을 두고 `CategoryTone`(1~5)으로 지정한다.
 
 ---
 
@@ -194,19 +225,35 @@ KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)�
 - 요청에 "웹/인터넷뱅킹/홈페이지" → 웹 프리셋
 - 명시 없음 → 모바일 프리셋
 
-### 2단계 — 토큰 주입
-프로젝트의 메인 CSS 파일(예: `src/index.css`)에 `examples/tokens.css`의 내용을 머지한다. 이미 `@theme` 블록이 있으면 토큰 키를 추가만 하고, 충돌하는 키는 **건드리지 않고** 사용자에게 차이만 보고한다.
+### 2단계 — 전제 확인
+Tailwind CSS **v4**가 설치돼 있어야 한다. 없으면 먼저 설치를 안내한다(React + Vite 프로젝트라면 `react-vite-scaffold` 스킬의 Tailwind 단계를 따른다). 메인 CSS 파일에 `@import 'tailwindcss'`가 있는지 확인한다.
 
-### 3단계 — 폰트 주입
-KBFG 웹폰트는 `examples/tokens.css`에서 자동으로 import된다. 별도 작업 불필요.
-(KBFG 로드 실패 시에는 시스템 기본 sans 폰트로 자연 대체된다.)
+### 3단계 — 토큰 주입
+프로젝트의 메인 CSS 파일(예: `src/index.css`)에 `assets/tokens.css`의 내용을 머지한다. 이미 `@theme` 블록이 있으면 토큰 키를 추가만 하고, 충돌하는 키는 **건드리지 않고** 사용자에게 차이만 보고한다.
 
-### 4단계 — 컴포넌트 생성
-요청한 페이지/컴포넌트에 따라 `examples/`의 파일들을 `src/components/kb/` 또는 사용자가 지정한 경로로 복사한다. 이미 같은 이름의 컴포넌트가 있으면 덮어쓰지 않고 충돌을 보고한다.
+`assets/fonts.css`도 함께 복사하고, 머지한 CSS에서 `@import url('./fonts.css')`가 실제 경로를 가리키는지 확인한다. Tailwind v4에서 `@import`는 `@import 'tailwindcss'`보다 **위**에 와야 한다.
 
-### 5단계 — 사용 가이드 출력
+### 4단계 — 폰트
+기본은 Pretendard이며 `assets/fonts.css`가 자동으로 불러온다. 별도 작업 없다.
+
+KB금융체를 써야 하고 사용자가 **정식 웹 임베딩 권한과 폰트 파일을 확보한 경우에만**, `assets/fonts.css`의 KBFG 옵트인 블록 주석을 해제하고 `url()` 경로를 실제 위치로 맞춘다. 토큰은 수정하지 않는다. 권한 확보 여부가 확인되지 않으면 활성화하지 말고 사용자에게 확인을 요청한다.
+
+### 5단계 — 컴포넌트 생성
+요청한 페이지/컴포넌트에 따라 `examples/`의 `.tsx` 파일을 `src/components/kb/` 또는 사용자가 지정한 경로로 복사한다. 이미 같은 이름의 컴포넌트가 있으면 덮어쓰지 않고 충돌을 보고한다.
+
+- `examples/tsconfig.json`은 이 스킬을 개발할 때 쓰는 타입체크용 파일이다. **복사 대상이 아니다.**
+- `HomePage.tsx`는 `./AccountCard` / `./TransactionItem` / `./QuickMenuGrid`를, `TransferConfirmSheet.tsx`는 `./BottomSheet`를, `CategoryDonut.tsx`는 `./SpendingBar`를 상대 경로로 import한다. 파일을 서로 다른 디렉토리로 나눠 넣었다면 import 경로를 함께 고친다.
+
+### 6단계 — 검증 (MANDATORY)
+- [ ] 타입체크/빌드 통과 (`tsc --noEmit` 또는 프로젝트의 `build` 스크립트)
+- [ ] 화면에서 카드 라운딩이 `rounded-xl`(20px) < `rounded-2xl`(24px) 순서로 보인다
+- [ ] 소비 바의 카테고리 세그먼트에 실제로 색이 들어간다 (`bg-cat-*` 생성 확인)
+- [ ] 제목에 `font-display`가 적용돼 있다
+- [ ] 임의값이 남아 있지 않다: 복사한 파일에 `shadow-[`, `text-[NNpx]`(일회성 제외), 원시 hex 컬러가 없는지 확인
+
+### 7단계 — 사용 가이드 출력
 - 어떤 토큰/컴포넌트가 추가됐는지 요약
-- 라이선스 주의사항 (KB CI 사용 금지, 폰트 라이선스 확인)
+- 라이선스 주의사항 (KB CI 사용 금지, KBFG를 켰다면 폰트 라이선스 근거 확인)
 
 ---
 
@@ -218,8 +265,8 @@ KB 스타일로 UI를 작성할 때 항상 지킬 것:
 - [ ] 옐로우 위 텍스트는 흰색 ❌ → **검정 또는 진한 그레이** ⭕
 - [ ] 출금 거래는 빨강 ❌ → **본문 그레이** ⭕ (입금만 파란색·민트로 강조)
 - [ ] 금액 표기: `12,442,910원` (콤마 + "원" 접미사 + tabular-nums)
-- [ ] 본문은 KBFG Text, 절대 시스템 기본 sans 노출 금지
-- [ ] 카드 라운딩 16~20px, 그림자는 매우 옅게 (`rgba(25,31,40,0.04)`)
+- [ ] 본문 폰트는 `font-sans`(Pretendard, KBFG 옵트인 시 KBFG Text). 제목은 `font-display`
+- [ ] 카드 라운딩은 `rounded-lg`~`rounded-xl`, 그림자는 `shadow-card`. 임의값 금지
 - [ ] 친근 존댓말: "안녕하세요, ○○님 / ~했어요 / ~하세요"
 - [ ] 정보 단위는 카드로 그룹. 카드 간 충분한 세로 간격(24px)
 - [ ] 모바일은 최대 너비 480px 가정, 웹은 1200px 가정

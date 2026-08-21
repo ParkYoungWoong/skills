@@ -1,11 +1,11 @@
 ---
 name: react-router-use
 description: (heropy) Use when adding React Router (Data Mode) to an existing React (Vite/CSR) project, configuring routes/layouts/navigation, or implementing route-level features such as loaders, protected routes, dynamic segments, nested routing, 404 pages, lazy loading, page transition animations, or SPA hosting redirects (Vercel/Netlify/Firebase).
-model: haiku
-effort: max
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # React Router (Data Mode) Use
@@ -479,7 +479,7 @@ export default function MovieDetails() {
   }, [movieId])
 
   async function fetchMovie() {
-    const res = await fetch(`https://www.omdbapi.com/?apikey=7035c60c&i=${movieId}`)
+    const res = await fetch(`https://www.omdbapi.com/?apikey=KEY&i=${movieId}`)
     const movie = await res.json()
     setMovie(movie)
   }
@@ -561,7 +561,7 @@ export default function Movies() {
   const [movies, setMovies] = useState<Movie[]>([])
 
   async function fetchMovies() {
-    const res = await fetch(`https://www.omdbapi.com/?apikey=7035c60c&s=${title}`)
+    const res = await fetch(`https://www.omdbapi.com/?apikey=KEY&s=${title}`)
     const { Search: movies } = await res.json()
     setMovies(movies)
   }
@@ -611,7 +611,7 @@ export default function MovieDetails() {
   }, [movieId])
 
   async function fetchMovie() {
-    const res = await fetch(`https://www.omdbapi.com/?apikey=7035c60c&i=${movieId}`)
+    const res = await fetch(`https://www.omdbapi.com/?apikey=KEY&i=${movieId}`)
     const movie = await res.json()
     setMovie(movie)
   }

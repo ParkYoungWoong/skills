@@ -20,9 +20,9 @@ const variantClass: Record<Variant, string> = {
 }
 
 const sizeClass: Record<Size, string> = {
-  sm: 'h-9 px-3.5 text-[13px] rounded-[8px]',
-  md: 'h-12 px-5 text-[15px] rounded-[12px]',
-  lg: 'h-14 px-6 text-[16px] rounded-[14px]'
+  sm: 'h-9 px-3.5 text-label rounded-sm',
+  md: 'h-12 px-5 text-body rounded-md',
+  lg: 'h-14 px-6 text-subhead rounded-[14px]'
 }
 
 export default function Button({

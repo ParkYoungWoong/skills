@@ -34,22 +34,22 @@ export default function TransferConfirmSheet({
       open={open}
       onClose={onClose}
       title="송금 정보를 확인하세요">
-      <div className="rounded-2xl bg-bg p-5">
+      <div className="rounded-lg bg-bg p-5">
         <div className="text-center">
-          <p className="text-[13px] text-ink-3">받는 분</p>
-          <p className="mt-1 text-[20px] font-bold text-ink">{toName}</p>
-          <p className="mt-1 text-[13px] text-ink-2">
+          <p className="text-label text-ink-3">받는 분</p>
+          <p className="mt-1 text-title font-bold text-ink">{toName}</p>
+          <p className="mt-1 text-label text-ink-2">
             {toBank} {toAccount}
           </p>
         </div>
 
         <div className="my-5 h-px bg-line-2" />
 
-        <div className="space-y-2.5 text-[14px]">
+        <div className="space-y-2.5 text-body-sm">
           <Row
             label="보낼 금액"
             value={
-              <span className="text-[18px] font-bold text-ink tabular-nums">{won(amount)}</span>
+              <span className="text-heading font-bold text-ink tabular-nums">{won(amount)}</span>
             }
           />
           <Row
@@ -66,12 +66,12 @@ export default function TransferConfirmSheet({
       <div className="mt-5 grid grid-cols-2 gap-3">
         <button
           onClick={onClose}
-          className="h-13 rounded-xl bg-line py-3.5 text-[15px] font-bold text-ink hover:bg-line-2">
+          className="h-13 rounded-xl bg-line py-3.5 text-body font-bold text-ink hover:bg-line-2">
           취소
         </button>
         <button
           onClick={onConfirm}
-          className="h-13 rounded-xl bg-kb-yellow py-3.5 text-[15px] font-bold text-kb-black transition hover:bg-kb-yellow-strong active:scale-[0.98]">
+          className="h-13 rounded-xl bg-kb-yellow py-3.5 text-body font-bold text-kb-black transition hover:bg-kb-yellow-strong active:scale-[0.98]">
           {won(amount)} 보내기
         </button>
       </div>

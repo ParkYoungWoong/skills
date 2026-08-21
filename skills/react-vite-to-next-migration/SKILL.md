@@ -1,10 +1,11 @@
 ---
 name: react-vite-to-next-migration
 description: (heropy) Use when migrating an existing Vite + React (TypeScript) project to Next.js (App Router, v16). Converts entry points, routing (React Router → App Router), environment variables, path aliases, static assets, and styling setup.
-license: MIT
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.1
+  version: 1.0.2
 ---
 
 # Vite React → Next.js App Router 마이그레이션
@@ -64,10 +65,14 @@ Vite 관련 패키지 제거, Next.js 패키지 추가:
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint"
   }
 }
 ```
+
+> `next lint`는 Next.js 15.5에서 폐기되고 16에서 제거됐다. 반드시 `eslint`를 직접 호출한다.
+> 이미 `next lint`를 쓰던 프로젝트라면 `{pmx} @next/codemod@canary next-lint-to-eslint-cli .`로
+> 스크립트와 필요한 의존성을 한 번에 전환할 수 있다.
 
 ### 4단계: 설정 파일 교체
 

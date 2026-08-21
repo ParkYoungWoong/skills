@@ -1,66 +1,73 @@
 /*
- * KBFG (KB금융체) 웹폰트 — KB금융그룹 전용 서체
+ * KB Bank Style - Fonts
  *
- * 이 스킬은 KB금융그룹 내부 사용 전제로 KBFG를 기본 폰트로 사용한다.
- * 외부 CDN(font.co.kr)의 woff 파일을 @font-face로 참조한다.
+ * 기본 폰트는 Pretendard다. (OFL-1.1, https://github.com/orioncactus/pretendard)
+ * KB금융체(KBFG Display / KBFG Text)는 KB금융그룹 전용 서체이고
+ * 공개된 웹 임베딩 허가 문구가 없다. 따라서 이 스킬은 KBFG를 원격 CDN에서
+ * 불러오지 않으며, 정식 사용 권한과 폰트 파일을 확보한 경우에만 옵트인으로 등록한다.
  * 공식 안내: https://www.kbfg.com/kor/about/corporate/font.htm
- *
- * KBFG 로드 실패 시 Pretendard로 자연 대체되도록 폴백 폰트도 함께 정의한다.
- * Pretendard: https://github.com/orioncactus/pretendard (OFL-1.1)
  */
 
-/* === Pretendard (폴백) === */
+/* === Pretendard (기본) === */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css');
 
-/* === KBFG Text (본문) === */
-@font-face {
-  font-family: 'KBFG Text';
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGTextL.woff') format('woff');
-}
-@font-face {
-  font-family: 'KBFG Text';
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGTextM.woff') format('woff');
-}
-@font-face {
-  font-family: 'KBFG Text';
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGTextB.woff') format('woff');
-}
-
-/* === KBFG Display (제목) === */
-@font-face {
-  font-family: 'KBFG Display';
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayL.woff') format('woff');
-}
-@font-face {
-  font-family: 'KBFG Display';
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayM.woff') format('woff');
-}
-@font-face {
-  font-family: 'KBFG Display';
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayMI.woff') format('woff');
-}
-@font-face {
-  font-family: 'KBFG Display';
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.font.co.kr/fonco/static/fonts/OTE2_KBFGDisplayB.woff') format('woff');
-}
+/* === KBFG (옵트인) ===
+ *
+ * KB금융그룹으로부터 웹 임베딩 권한과 폰트 파일을 확보한 경우에만 사용한다.
+ *
+ * 1. 확보한 폰트 파일을 프로젝트의 정적 경로(예: `public/fonts/`)에 둔다.
+ * 2. 아래 블록의 주석을 해제하고 `url()` 경로를 실제 위치로 맞춘다.
+ * 3. tokens.css의 `--font-sans` / `--font-display`가 이미 KBFG를 스택 맨 앞에
+ *    두고 있으므로 토큰은 수정할 필요가 없다. 등록되지 않은 동안에는
+ *    자동으로 Pretendard가 사용된다.
+ *
+ * @font-face {
+ *   font-family: 'KBFG Text';
+ *   font-weight: 300;
+ *   font-style: normal;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGTextL.woff2') format('woff2');
+ * }
+ * @font-face {
+ *   font-family: 'KBFG Text';
+ *   font-weight: 500;
+ *   font-style: normal;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGTextM.woff2') format('woff2');
+ * }
+ * @font-face {
+ *   font-family: 'KBFG Text';
+ *   font-weight: 700;
+ *   font-style: normal;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGTextB.woff2') format('woff2');
+ * }
+ * @font-face {
+ *   font-family: 'KBFG Display';
+ *   font-weight: 300;
+ *   font-style: normal;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGDisplayL.woff2') format('woff2');
+ * }
+ * @font-face {
+ *   font-family: 'KBFG Display';
+ *   font-weight: 500;
+ *   font-style: normal;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGDisplayM.woff2') format('woff2');
+ * }
+ * @font-face {
+ *   font-family: 'KBFG Display';
+ *   font-weight: 500;
+ *   font-style: italic;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGDisplayMI.woff2') format('woff2');
+ * }
+ * @font-face {
+ *   font-family: 'KBFG Display';
+ *   font-weight: 700;
+ *   font-style: normal;
+ *   font-display: swap;
+ *   src: url('/fonts/KBFGDisplayB.woff2') format('woff2');
+ * }
+ */

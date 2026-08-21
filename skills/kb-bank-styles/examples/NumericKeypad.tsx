@@ -33,7 +33,7 @@ export default function NumericKeypad({
   ]
 
   return (
-    <div className="grid grid-cols-3 gap-1 rounded-2xl bg-bg p-2">
+    <div className="grid grid-cols-3 gap-1 rounded-lg bg-bg p-2">
       {cells.map((c, i) => {
         if (c === '') return <div key={i} />
         if (c === 'clear') {
@@ -42,7 +42,7 @@ export default function NumericKeypad({
               key={i}
               type="button"
               onClick={onClear}
-              className="h-14 rounded-xl text-[14px] font-bold text-ink-2 hover:bg-line">
+              className="h-14 rounded-xl text-body-sm font-bold text-ink-2 hover:bg-line">
               전체삭제
             </button>
           )
@@ -63,7 +63,7 @@ export default function NumericKeypad({
             key={i}
             type="button"
             onClick={() => onPress(c)}
-            className="h-14 rounded-xl text-[22px] font-bold text-ink hover:bg-line active:scale-[0.97]">
+            className="h-14 rounded-xl text-keypad font-bold text-ink hover:bg-line active:scale-[0.97]">
             {c}
           </button>
         )

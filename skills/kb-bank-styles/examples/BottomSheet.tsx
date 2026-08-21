@@ -39,13 +39,13 @@ export default function BottomSheet({ open, onClose, title, children }: BottomSh
       />
       {/* sheet */}
       <div
-        className={`absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-[24px] bg-surface px-5 pb-8 pt-3 shadow-[0_-8px_24px_rgba(25,31,40,0.08)] transition-transform duration-300 ${
+        className={`absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-surface px-5 pb-8 pt-3 shadow-sheet transition-transform duration-300 ${
           open ? 'translate-y-0' : 'translate-y-full'
         }`}>
         <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-line-2" />
         {title && (
           <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-[18px] font-bold text-ink">{title}</h3>
+            <h3 className="font-display text-heading font-bold text-ink">{title}</h3>
             <button
               onClick={onClose}
               className="rounded-full p-1.5 text-ink-3 hover:bg-line">

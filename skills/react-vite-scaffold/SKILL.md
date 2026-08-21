@@ -1,8 +1,8 @@
 ---
 name: react-vite-scaffold
 description: (heropy) Use when initializing a new Vite + React (CSR) project or when an existing Vite React project needs missing configuration (ESLint, Prettier, Tailwind CSS, VSCode settings, path aliases).
-model: haiku
-effort: max
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
   version: 2.0.0

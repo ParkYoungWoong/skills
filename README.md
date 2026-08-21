@@ -142,6 +142,9 @@ npx skills add ParkYoungWoong/skills --skill lighthouse
 
 - LHCI CLI 자동 실행 (`@lhci/cli`, 헤드리스 Chrome)
 - 4개 카테고리 종합 분석 (Performance, Accessibility, Best Practices, SEO)
+- 다회 측정 후 중앙값 실행을 대표로 선택
+- 실행 직후 설정 반영 여부 검증 (모바일/데스크톱 에뮬레이션 확인)
+- 단일 URL / 인증 뒤 페이지는 chrome-devtools MCP 분기 지원
 - 카테고리별 구체적 개선점 제안
 - 프로젝트 프레임워크 자동 감지 (Next.js, Vite, Nuxt, Angular 등)
 - 사용자 확인 후 코드 수정 지원
@@ -154,8 +157,9 @@ KB국민은행 / KB스타뱅킹의 시각 언어를 따라 한국 금융권(뱅�
 npx skills add ParkYoungWoong/skills --skill kb-bank-styles
 ```
 
-- 디자인 토큰 (컬러·타이포·스페이싱·라운딩·그림자)
+- 디자인 토큰 (컬러·타이포·스페이싱·라운딩·그림자), Tailwind v4 `@theme` 기반
 - 모바일(KB스타뱅킹) / 웹(kbstar.com) 두 가지 프리셋
-- 컴포넌트 스니펫 (Button, AccountCard, AmountInput, BottomSheet 등)
+- 컴포넌트 스니펫 16종 (Button, AccountCard, AmountInput, BottomSheet 등)
 - 홈/송금/내역 페이지 템플릿
-- Pretendard 폰트 및 한국 금융권 UX 컨벤션 반영
+- 기본 폰트는 Pretendard(OFL-1.1), KB금융체는 라이선스 확보 시 옵트인
+- 한국 금융권 UX 컨벤션 반영

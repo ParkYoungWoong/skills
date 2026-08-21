@@ -20,9 +20,9 @@ export function EmptyState({
       <div className="grid h-16 w-16 place-items-center rounded-full bg-line text-3xl text-ink-3">
         {icon}
       </div>
-      <p className="mt-4 text-[16px] font-bold text-ink">{title}</p>
+      <p className="mt-4 text-subhead font-bold text-ink">{title}</p>
       {description && (
-        <p className="mt-1 text-[13px] text-ink-3">{description}</p>
+        <p className="mt-1 text-label text-ink-3">{description}</p>
       )}
       {action && <div className="mt-5">{action}</div>}
     </div>
@@ -50,7 +50,7 @@ export function Skeleton({
 /** 자주 쓰는 조합: 계좌 카드 스켈레톤 */
 export function AccountCardSkeleton() {
   return (
-    <div className="space-y-4 rounded-2xl bg-surface p-7 shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
+    <div className="space-y-4 rounded-lg bg-surface p-7 shadow-card">
       <div className="flex items-center gap-3">
         <Skeleton
           className="h-10 w-10"
@@ -118,9 +118,9 @@ export function Toast({
         open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
       }`}
       aria-live="polite">
-      <div className="pointer-events-auto flex items-center gap-3 rounded-2xl bg-kb-black px-5 py-3.5 text-[14px] font-semibold text-white shadow-[0_8px_24px_rgba(25,31,40,0.2)]">
+      <div className="pointer-events-auto flex items-center gap-3 rounded-lg bg-kb-black px-5 py-3.5 text-body-sm font-semibold text-white shadow-toast">
         <span
-          className={`grid h-5 w-5 place-items-center rounded-full ${dotColor} text-[11px] font-bold text-kb-black`}>
+          className={`grid h-5 w-5 place-items-center rounded-full ${dotColor} text-micro font-bold text-kb-black`}>
           {icon}
         </span>
         {message}

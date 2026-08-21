@@ -1,9 +1,20 @@
 import * as React from 'react'
 
+import type { CategoryTone } from './SpendingBar'
+
+/** 카테고리 팔레트 토큰(--color-cat-*)을 그대로 참조한다. */
+const TONE_COLOR: Record<CategoryTone, string> = {
+  1: 'var(--color-cat-1)',
+  2: 'var(--color-cat-2)',
+  3: 'var(--color-cat-3)',
+  4: 'var(--color-cat-4)',
+  5: 'var(--color-cat-5)'
+}
+
 export interface DonutSlice {
   label: string
   value: number
-  color: string // hex
+  tone: CategoryTone
 }
 
 interface CategoryDonutProps {
@@ -41,7 +52,7 @@ export default function CategoryDonut({
             cy={size / 2}
             r={r}
             fill="none"
-            stroke="#EEF0F3"
+            stroke="var(--color-line)"
             strokeWidth={thickness}
           />
           {slices.map(s => {
@@ -56,7 +67,7 @@ export default function CategoryDonut({
                 cy={size / 2}
                 r={r}
                 fill="none"
-                stroke={s.color}
+                stroke={TONE_COLOR[s.tone]}
                 strokeWidth={thickness}
                 strokeDasharray={dash}
                 strokeDashoffset={offset}
@@ -68,15 +79,15 @@ export default function CategoryDonut({
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           {centerLabel && (
-            <span className="text-[11px] font-semibold text-ink-3">{centerLabel}</span>
+            <span className="text-micro font-semibold text-ink-3">{centerLabel}</span>
           )}
           {centerValue && (
-            <span className="mt-1 text-[18px] font-bold text-ink">{centerValue}</span>
+            <span className="mt-1 text-heading font-bold text-ink">{centerValue}</span>
           )}
         </div>
       </div>
 
-      <ul className="space-y-2 text-[13px]">
+      <ul className="space-y-2 text-label">
         {slices.map(s => {
           const pct = Math.round((s.value / total) * 100)
           return (
@@ -85,7 +96,7 @@ export default function CategoryDonut({
               className="flex items-center gap-3">
               <span
                 className="h-2.5 w-2.5 rounded-full"
-                style={{ background: s.color }}
+                style={{ background: TONE_COLOR[s.tone] }}
               />
               <span className="text-ink-2">{s.label}</span>
               <span className="ml-auto font-bold tabular-nums text-ink">{pct}%</span>

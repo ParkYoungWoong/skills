@@ -36,7 +36,7 @@ export default function AmountInput({
           value={display}
           onChange={e => handle(e.target.value)}
           placeholder={placeholder}
-          className="w-full bg-transparent text-[40px] font-bold tracking-tight tabular-nums text-ink outline-none placeholder:text-ink-4"
+          className="w-full bg-transparent text-display-1 font-bold tracking-tight tabular-nums text-ink outline-none placeholder:text-ink-4"
         />
         {internal > 0 && <span className="text-2xl font-bold text-ink-2">원</span>}
       </div>
@@ -46,14 +46,14 @@ export default function AmountInput({
             key={amount}
             type="button"
             onClick={() => handle(String(internal + amount))}
-            className="rounded-full border border-line-2 px-3 py-1.5 text-[12px] font-semibold text-ink-2 hover:bg-line">
+            className="rounded-full border border-line-2 px-3 py-1.5 text-caption font-semibold text-ink-2 hover:bg-line">
             +{amount.toLocaleString('ko-KR')}
           </button>
         ))}
         <button
           type="button"
           onClick={() => handle('0')}
-          className="rounded-full border border-line-2 px-3 py-1.5 text-[12px] font-semibold text-ink-2 hover:bg-line">
+          className="rounded-full border border-line-2 px-3 py-1.5 text-caption font-semibold text-ink-2 hover:bg-line">
           정정
         </button>
       </div>

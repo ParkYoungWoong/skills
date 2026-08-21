@@ -1,8 +1,8 @@
 ---
 name: tanstack-react-query-use
 description: (heropy) Use when working with TanStack Query (React Query) in a React or Next.js project — fetching server data with useQuery, configuring staleTime/gcTime/queryKey caching, writing useMutation with optimistic updates, building infinite scroll with useInfiniteQuery, invalidating cache, integrating QueryClientProvider, or using ReactQueryDevtools. Trigger even if the user only says "data fetching", "캐싱", "서버 상태", "낙관적 업데이트" in a React context.
-model: haiku
-effort: max
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
   version: 1.0.0

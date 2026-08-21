@@ -1,9 +1,24 @@
 import * as React from 'react'
 
+export type CategoryTone = 1 | 2 | 3 | 4 | 5
+
+/**
+ * Tailwind v4는 소스에 문자열로 등장한 클래스만 생성한다.
+ * `bg-cat-${n}` 처럼 런타임에 조립하면 클래스가 만들어지지 않으므로,
+ * 리터럴을 그대로 담은 매핑을 둔다.
+ */
+const TONE_BG: Record<CategoryTone, string> = {
+  1: 'bg-cat-1',
+  2: 'bg-cat-2',
+  3: 'bg-cat-3',
+  4: 'bg-cat-4',
+  5: 'bg-cat-5'
+}
+
 export interface SpendingSegment {
   label: string
   amount: number
-  color: string // tailwind 클래스 (예: 'bg-cat-1')
+  tone: CategoryTone
 }
 
 interface SpendingBarProps {
@@ -26,19 +41,19 @@ export default function SpendingBar({
   const sum = segments.reduce((s, x) => s + x.amount, 0)
 
   return (
-    <div className="rounded-2xl bg-surface p-6 shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
+    <div className="rounded-lg bg-surface p-6 shadow-card">
       <div className="flex items-center justify-between">
-        <h3 className="text-[15px] font-bold text-ink">{title}</h3>
-        {period && <span className="text-[12px] text-ink-3">{period}</span>}
+        <h3 className="font-display text-body font-bold text-ink">{title}</h3>
+        {period && <span className="text-caption text-ink-3">{period}</span>}
       </div>
 
       <div className="mt-4 flex items-baseline gap-1">
-        <span className="text-[28px] font-bold tabular-nums text-ink">
+        <span className="text-display-3 font-bold tabular-nums text-ink">
           {sum.toLocaleString('ko-KR')}
         </span>
         <span className="text-base font-bold text-ink-2">원</span>
         {total > 0 && (
-          <span className="ml-2 text-[12px] text-ink-3">
+          <span className="ml-2 text-caption text-ink-3">
             / 예산 {total.toLocaleString('ko-KR')}원
           </span>
         )}
@@ -48,19 +63,19 @@ export default function SpendingBar({
         {segments.map(seg => (
           <div
             key={seg.label}
-            className={`h-full ${seg.color}`}
+            className={`h-full ${TONE_BG[seg.tone]}`}
             style={{ width: `${(seg.amount / sum) * 100}%` }}
           />
         ))}
       </div>
 
-      <ul className="mt-4 space-y-2.5 text-[13px]">
+      <ul className="mt-4 space-y-2.5 text-label">
         {segments.map(seg => (
           <li
             key={seg.label}
             className="flex items-center justify-between">
             <span className="flex items-center gap-2 text-ink-2">
-              <span className={`h-2 w-2 rounded-full ${seg.color}`} />
+              <span className={`h-2 w-2 rounded-full ${TONE_BG[seg.tone]}`} />
               {seg.label}
             </span>
             <span className="font-bold tabular-nums text-ink">

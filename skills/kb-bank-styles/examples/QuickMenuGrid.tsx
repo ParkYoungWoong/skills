@@ -14,8 +14,8 @@ interface QuickMenuGridProps {
 
 export default function QuickMenuGrid({ items, columns = 4 }: QuickMenuGridProps) {
   return (
-    <div className="rounded-2xl bg-surface p-6 shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
-      <h3 className="text-[15px] font-bold text-ink">자주 쓰는 메뉴</h3>
+    <div className="rounded-lg bg-surface p-6 shadow-card">
+      <h3 className="font-display text-body font-bold text-ink">자주 쓰는 메뉴</h3>
       <div
         className="mt-4 grid gap-2"
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
@@ -32,7 +32,7 @@ export default function QuickMenuGrid({ items, columns = 4 }: QuickMenuGridProps
               }`}>
               {m.icon}
             </div>
-            <span className="text-[12px] font-medium text-ink-2">{m.label}</span>
+            <span className="text-caption font-medium text-ink-2">{m.label}</span>
           </button>
         ))}
       </div>

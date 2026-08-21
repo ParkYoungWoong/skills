@@ -45,14 +45,14 @@ export default function TermsAccordion({ terms, onChange }: TermsAccordionProps)
   }
 
   return (
-    <div className="rounded-2xl bg-surface p-6 shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
+    <div className="rounded-lg bg-surface p-6 shadow-card">
       <button
         type="button"
         onClick={toggleAll}
         className="flex w-full items-center gap-3 rounded-xl bg-bg px-4 py-4 text-left">
         <Check checked={allChecked} />
-        <span className="text-[15px] font-bold text-ink">약관 전체 동의</span>
-        <span className="ml-auto text-[12px] text-ink-3">
+        <span className="text-body font-bold text-ink">약관 전체 동의</span>
+        <span className="ml-auto text-caption text-ink-3">
           {requiredOk ? '필수 항목 모두 동의' : '필수 항목을 확인하세요'}
         </span>
       </button>
@@ -68,7 +68,7 @@ export default function TermsAccordion({ terms, onChange }: TermsAccordionProps)
                   onClick={() => toggleOne(t.id)}
                   className="flex flex-1 items-center gap-3 text-left">
                   <Check checked={!!checked[t.id]} />
-                  <span className="text-[14px] text-ink">
+                  <span className="text-body-sm text-ink">
                     <span className={t.required ? 'text-info' : 'text-ink-3'}>
                       [{t.required ? '필수' : '선택'}]
                     </span>{' '}
@@ -79,13 +79,13 @@ export default function TermsAccordion({ terms, onChange }: TermsAccordionProps)
                   <button
                     type="button"
                     onClick={() => setOpen(o => ({ ...o, [t.id]: !o[t.id] }))}
-                    className="text-[12px] font-semibold text-ink-3 hover:text-ink">
+                    className="text-caption font-semibold text-ink-3 hover:text-ink">
                     {isOpen ? '접기' : '보기'}
                   </button>
                 )}
               </div>
               {isOpen && t.body && (
-                <div className="mb-3 max-h-40 overflow-y-auto rounded-lg bg-bg p-4 text-[12px] leading-relaxed text-ink-2">
+                <div className="mb-3 max-h-40 overflow-y-auto rounded-lg bg-bg p-4 text-caption leading-relaxed text-ink-2">
                   {t.body}
                 </div>
               )}
@@ -103,7 +103,7 @@ function Check({ checked }: { checked: boolean }) {
       className={`grid h-6 w-6 place-items-center rounded-full transition ${
         checked ? 'bg-kb-yellow text-kb-black' : 'border border-line-2 bg-surface text-ink-4'
       }`}>
-      <span className="text-[14px] font-bold leading-none">✓</span>
+      <span className="text-body-sm font-bold leading-none">✓</span>
     </span>
   )
 }

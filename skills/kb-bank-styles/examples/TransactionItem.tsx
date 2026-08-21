@@ -41,21 +41,21 @@ export default function TransactionItem({
           </svg>
         </div>
         <div>
-          <p className="text-[15px] font-bold text-ink">{merchant}</p>
-          <p className="text-[12px] text-ink-3">
+          <p className="text-body font-bold text-ink">{merchant}</p>
+          <p className="text-caption text-ink-3">
             {category} · {time}
           </p>
         </div>
       </div>
       <div className="text-right">
         <p
-          className={`text-[15px] font-bold tabular-nums ${
+          className={`text-body font-bold tabular-nums ${
             income ? 'text-info' : 'text-ink'
           }`}>
           {display}
         </p>
         {balanceAfter !== undefined && (
-          <p className="text-[12px] text-ink-3 tabular-nums">
+          <p className="text-caption text-ink-3 tabular-nums">
             잔액 {balanceAfter.toLocaleString('ko-KR')}원
           </p>
         )}

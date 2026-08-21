@@ -30,10 +30,10 @@ export default function HomePage() {
       <main className="mx-auto max-w-[480px] space-y-5 px-5 py-6">
         {/* 인사 */}
         <div>
-          <h1 className="text-[24px] font-bold leading-tight">
+          <h1 className="font-display text-headline font-bold leading-tight">
             안녕하세요, <span className="text-kb-yellow-strong">이수진</span>님
           </h1>
-          <p className="mt-1 text-[14px] text-ink-2">오늘도 안전하게 거래하세요</p>
+          <p className="mt-1 text-body-sm text-ink-2">오늘도 안전하게 거래하세요</p>
         </div>
 
         <AccountCard
@@ -56,10 +56,10 @@ export default function HomePage() {
         />
 
         {/* 거래내역 */}
-        <div className="rounded-2xl bg-surface p-6 shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
+        <div className="rounded-lg bg-surface p-6 shadow-card">
           <div className="flex items-center justify-between">
-            <h2 className="text-[16px] font-bold">최근 거래내역</h2>
-            <a className="text-[12px] font-medium text-ink-2">전체보기 ›</a>
+            <h2 className="font-display text-subhead font-bold">최근 거래내역</h2>
+            <a className="text-caption font-medium text-ink-2">전체보기 ›</a>
           </div>
           <ul className="mt-2 divide-y divide-line">
             <TransactionItem
@@ -87,14 +87,14 @@ export default function HomePage() {
         </div>
 
         {/* 프로모 */}
-        <div className="overflow-hidden rounded-2xl bg-kb-yellow p-6 text-kb-black">
-          <p className="text-[12px] font-bold opacity-80">신규 이벤트</p>
-          <p className="mt-1 text-[18px] font-bold leading-snug">
+        <div className="overflow-hidden rounded-lg bg-kb-yellow p-6 text-kb-black">
+          <p className="text-caption font-bold opacity-80">신규 이벤트</p>
+          <p className="mt-1 text-heading font-bold leading-snug">
             첫 적금 가입하고
             <br />
             커피 쿠폰 받기 ☕
           </p>
-          <button className="mt-4 rounded-full bg-kb-black px-4 py-2 text-[13px] font-bold text-kb-yellow">
+          <button className="mt-4 rounded-full bg-kb-black px-4 py-2 text-label font-bold text-kb-yellow">
             자세히 보기
           </button>
         </div>

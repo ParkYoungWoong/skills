@@ -23,7 +23,7 @@ export default function AccountCard({
   const [hidden, setHidden] = useState(false)
 
   return (
-    <div className="rounded-[20px] bg-surface p-7 shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
+    <div className="rounded-xl bg-surface p-7 shadow-card">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="grid h-10 w-10 place-items-center rounded-xl bg-kb-yellow-soft">
@@ -32,7 +32,7 @@ export default function AccountCard({
               height="22"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#1A1A1A"
+              stroke="var(--color-kb-black)"
               strokeWidth="2.2">
               <rect
                 x="3"
@@ -45,8 +45,8 @@ export default function AccountCard({
             </svg>
           </div>
           <div>
-            <p className="text-[13px] text-ink-3">{number}</p>
-            <p className="text-[15px] font-bold text-ink">{name}</p>
+            <p className="text-label text-ink-3">{number}</p>
+            <p className="text-body font-bold text-ink">{name}</p>
           </div>
         </div>
         {hideToggle && (
@@ -59,7 +59,7 @@ export default function AccountCard({
       </div>
 
       <div className="mt-5 flex items-baseline gap-1">
-        <span className="text-[40px] font-bold tracking-tight tabular-nums text-ink">
+        <span className="text-display-1 font-bold tracking-tight tabular-nums text-ink">
           {hidden ? '••••••••' : balance.toLocaleString('ko-KR')}
         </span>
         <span className="text-2xl font-bold text-ink-2">원</span>
@@ -68,17 +68,17 @@ export default function AccountCard({
       <div className="mt-6 grid grid-cols-3 gap-3">
         <button
           onClick={onTransfer}
-          className="h-12 rounded-xl bg-kb-yellow text-[15px] font-bold text-kb-black transition hover:bg-kb-yellow-strong active:scale-[0.98]">
+          className="h-12 rounded-xl bg-kb-yellow text-body font-bold text-kb-black transition hover:bg-kb-yellow-strong active:scale-[0.98]">
           송금
         </button>
         <button
           onClick={onHistory}
-          className="h-12 rounded-xl bg-line text-[15px] font-bold text-ink hover:bg-line-2">
+          className="h-12 rounded-xl bg-line text-body font-bold text-ink hover:bg-line-2">
           내역
         </button>
         <button
           onClick={onAtm}
-          className="h-12 rounded-xl bg-line text-[15px] font-bold text-ink hover:bg-line-2">
+          className="h-12 rounded-xl bg-line text-body font-bold text-ink hover:bg-line-2">
           ATM
         </button>
       </div>

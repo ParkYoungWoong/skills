@@ -1,10 +1,11 @@
 ---
 name: lighthouse
 description: (heropy) Use when analyzing web page performance, accessibility, best practices, or SEO using Google Lighthouse. Runs LHCI CLI locally, parses results, and suggests improvements with optional code fixes.
-license: MIT
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.1.1
+  version: 1.2.0
 ---
 
 # Lighthouse Audit
@@ -12,6 +13,18 @@ metadata:
 Google Lighthouse를 로컬에서 실행하여 웹 페이지의 성능, 접근성, SEO 등을 분석하고 개선점을 제안하는 스킬.
 
 ## 동작 흐름
+
+### 0단계: 실행 경로 선택
+
+기본 경로는 LHCI(`npx @lhci/cli`)다. 구성 파일 기반 실행, 다중 URL, 다회 측정, CI 연동이 모두 되고 결과를 JSON으로 남기므로 6단계 파싱이 그대로 이어진다.
+
+다만 아래 중 하나에 해당하고 `chrome-devtools` MCP의 `lighthouse_audit` 툴을 쓸 수 있으면 그쪽이 낫다. 이 경우 1~5단계를 건너뛰고 툴 결과로 바로 6단계로 간다.
+
+- 단일 URL을 1회만 측정하면 되는 경우
+- `npx`로 패키지를 내려받을 수 없는 환경
+- 로그인이 필요하거나 특정 상호작용 이후 상태를 측정해야 하는 경우 (MCP로 먼저 이동/로그인한 뒤 감사)
+
+LHCI로도 인증 뒤 페이지를 측정할 수 있지만 `--puppeteerScript`로 별도 스크립트를 작성해야 한다.
 
 ### 1단계: 대상 URL 결정
 
@@ -70,7 +83,7 @@ curl -s -o /dev/null -w "%{http_code}" {URL}
 
 ### 3단계: Lighthouse 실행 환경 확인
 
-프로젝트의 `.gitignore`에 `.lighthouseci`가 포함되어 있는지 확인한다. 없으면 `.gitignore`에 `.lighthouseci`를 추가하여 분석 결과가 실수로 커밋되지 않도록 한다.
+프로젝트의 `.gitignore`에 `.lighthouseci`가 포함되어 있는지 확인한다. 없으면 **사용자에게 추가 여부를 물은 뒤** 추가한다. 사용자 저장소의 파일이므로 묻지 않고 고치지 않는다.
 
 Lighthouse는 Chrome 또는 Chromium 브라우저가 필요하다. 설치 여부를 확인한다.
 
@@ -101,7 +114,7 @@ Chrome이 설치되어 있지 않으면 사용자에게 설치를 안내하고 �
 구성 파일이 존재하는 경우:
 - 해당 파일의 설정을 우선 적용한다. `lhci collect` 실행 시 `--config` 플래그 없이도 LHCI가 자동으로 인식한다
 - 구성 파일에 `ci.collect.url`이 이미 지정되어 있으면 1단계에서 결정한 URL 대신 구성 파일의 URL을 사용한다
-- 구성 파일에 없는 옵션만 CLI 플래그로 보충한다 (예: 구성 파일에 `numberOfRuns`가 없으면 CLI에서 `--numberOfRuns=1`을 추가)
+- 구성 파일에 없는 옵션만 CLI 플래그로 보충한다 (예: 구성 파일에 `numberOfRuns`가 없으면 CLI에서 `--numberOfRuns=3`을 추가)
 - 사용자에게 감지된 구성 파일명과 주요 설정 내용을 안내한다
 
 구성 파일이 없는 경우:
@@ -111,37 +124,59 @@ Chrome이 설치되어 있지 않으면 사용자에게 설치를 안내하고 �
 
 `npx @lhci/cli`로 Lighthouse를 실행한다. `lhci collect` 명령은 Lighthouse를 실행하고 결과를 `.lighthouseci/` 디렉토리에 JSON 파일로 저장한다.
 
+**Lighthouse CLI의 플래그를 그대로 쓰면 안 된다.** `lhci collect`는 `--only-categories`, `--chrome-flags`, `--preset`을 지원하지 않는다. yargs가 strict 모드가 아니라 **에러 없이 조용히 무시**되므로, 예를 들어 `--preset=desktop`을 넘기면 모바일 에뮬레이션 결과를 데스크톱 결과라고 보고하게 된다.
+
+Lighthouse 쪽 설정은 전부 `--settings.*`(또는 구성 파일의 `ci.collect.settings`)로 넘긴다.
+
 구성 파일이 없는 경우의 기본 실행 명령:
 
 ```bash
 npx @lhci/cli collect \
   --url={URL1} \
   --url={URL2} \
-  --numberOfRuns=1 \
-  --chrome-flags="--headless --no-sandbox" \
-  --only-categories=performance,accessibility,best-practices,seo
+  --numberOfRuns=3 \
+  --settings.chromeFlags="--no-sandbox" \
+  --settings.onlyCategories=performance,accessibility,best-practices,seo
 ```
 
 `--url` 플래그를 여러 번 지정하여 복수의 URL을 한 번에 분석할 수 있다.
 
-구성 파일이 있는 경우, 구성 파일에 정의되지 않은 옵션만 CLI 플래그로 추가한다:
+구성 파일이 있는 경우, 구성 파일에 정의되지 않은 옵션만 CLI 플래그로 추가한다.
 
-```bash
-npx @lhci/cli collect \
-  --chrome-flags="--headless --no-sandbox"
-```
+`lhci collect`가 실제로 지원하는 주요 플래그: `--url`, `--numberOfRuns`(`-n`), `--settings`, `--config`, `--chromePath`, `--puppeteerScript`, `--puppeteerLaunchOptions`, `--staticDistDir`, `--startServerCommand`, `--headful`, `--additive`. 확실하지 않으면 `npx @lhci/cli collect --help`로 확인한다.
 
-- `--numberOfRuns`: 기본 1회 실행. 사용자가 더 정확한 결과를 원하면 3~5회로 늘려 중앙값을 사용한다
+- `--numberOfRuns`: LHCI 기본값은 3이다. Lighthouse 점수는 실행마다 흔들리므로 3회 이상을 권장하고, 빠른 확인이 필요할 때만 1로 줄인다
 - 결과 파일은 `.lighthouseci/` 디렉토리에 `lhr-{timestamp}.json` 형식으로 저장된다
+- LHCI는 Puppeteer로 Chrome을 띄우므로 기본이 headless다. `--headless`를 따로 줄 필요가 없다
 
 디바이스 설정:
 - 기본값은 모바일(Lighthouse 기본 동작)
-- 사용자가 데스크톱을 요청하면 `--preset=desktop` 플래그를 추가한다
+- 사용자가 데스크톱을 요청하면 `--settings.preset=desktop`을 추가한다
 - 사용자가 모바일과 데스크톱 모두 요청하면 각각 실행하여 결과를 비교한다
+
+**실행 직후 확인 (MANDATORY)**
+
+`.lighthouseci/lhr-*.json`이 생성됐는지, 그리고 의도한 설정이 실제로 반영됐는지 확인한다. 이 확인을 건너뛰면 무시된 플래그를 알아챌 수 없다.
+
+- [ ] `.lighthouseci/`에 `lhr-*.json`이 `numberOfRuns` 수만큼 있다
+- [ ] `configSettings.formFactor`가 의도한 값이다 (`mobile` 또는 `desktop`)
+- [ ] `configSettings.onlyCategories`가 요청한 카테고리와 일치한다
+- [ ] `categories`에 요청한 카테고리만 들어 있다
+
+하나라도 어긋나면 플래그가 무시된 것이다. 잘못된 점수를 보고하지 말고 명령을 고쳐서 다시 실행한다.
 
 ### 6단계: 결과 파싱 및 요약
 
-`.lighthouseci/` 디렉토리에서 가장 최근 `lhr-*.json` 파일을 읽어서 카테고리별 점수와 개선 항목을 추출한다. 여러 번 실행한 경우 중앙값(median) 결과 파일을 사용한다.
+`.lighthouseci/` 디렉토리의 `lhr-*.json`을 읽어서 카테고리별 점수와 개선 항목을 추출한다.
+
+여러 번 실행한 경우 **대표 실행 1개를 골라서** 쓴다. `lhci collect`는 median 파일을 따로 만들어 주지 않으므로 직접 고른다.
+
+1. 각 URL별로 `lhr-*.json`을 모은다 (`requestedUrl`로 그룹핑)
+2. 각 파일의 `categories.performance.score`를 뽑아 정렬한다
+3. 중앙값에 해당하는 파일을 그 URL의 대표 실행으로 삼는다 (짝수 개면 아래쪽)
+4. 이후 모든 점수/감사 항목은 그 대표 파일 하나에서만 읽는다
+
+`numberOfRuns`가 1이면 그 파일이 곧 대표 실행이다.
 
 카테고리별 점수 요약 테이블을 출력한다:
 
@@ -250,9 +285,10 @@ Performance 카테고리의 경우 `metricSavings` 또는 `overallSavingsMs` 값
 분석 완료 후 정리 작업을 수행한다.
 
 1. 프로덕션 빌드 분석 모드였다면 백그라운드 프리뷰 서버 프로세스를 종료한다
-2. 생성된 리포트 디렉토리를 삭제하여 프로젝트 디렉토리를 깨끗하게 유지한다
+2. `.lighthouseci/` 삭제 여부를 **사용자에게 묻는다.** 원본 리포트를 지우면 재측정 전후 비교가 불가능해지므로 기본은 남겨 두는 쪽이다. 8단계에서 코드를 수정하고 재측정할 예정이면 반드시 남긴다
 
 ```bash
+# 사용자가 삭제를 원하는 경우에만
 rm -rf ./.lighthouseci
 ```
 
@@ -260,8 +296,8 @@ rm -rf ./.lighthouseci
 
 - Lighthouse 실행에는 Chrome 또는 Chromium 브라우저가 반드시 필요하다. 설치되어 있지 않으면 안내 후 중단한다
 - 로컬 URL 분석 시 개발 서버가 실행 중이어야 한다. 서버가 꺼져 있으면 시작을 안내하고 대기한다
-- Lighthouse 점수는 실행 환경(네트워크, CPU 등)에 따라 매번 달라질 수 있다. 정확도가 필요하면 `--numberOfRuns`를 늘려 중앙값을 사용한다
-- `npx @lhci/cli`를 사용하여 실행한다
+- Lighthouse 점수는 실행 환경(네트워크, CPU 등)에 따라 매번 달라질 수 있다. 그래서 기본 `--numberOfRuns`를 3으로 두고 중앙값 실행을 대표로 쓴다
+- Lighthouse CLI 플래그(`--only-categories`, `--chrome-flags`, `--preset`)는 `lhci collect`에서 조용히 무시된다. 반드시 `--settings.*`로 넘긴다
 - 코드 수정은 반드시 사용자 확인 후 진행한다. 자동으로 수정하지 않는다
-- `.lighthouseci/` 디렉토리는 분석 완료 후 삭제하여 프로젝트를 오염시키지 않는다
+- `.gitignore` 수정과 `.lighthouseci/` 삭제는 사용자 확인 후에만 한다
 - 외부 URL 분석 시 네트워크 상태에 따라 결과가 달라질 수 있음을 사용자에게 안내한다

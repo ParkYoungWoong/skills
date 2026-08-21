@@ -1,11 +1,11 @@
 ---
 name: react-next-scaffold
 description: (heropy) Use when initializing a new Next.js (SSR) project or when an existing Next.js project needs missing configuration (ESLint, Prettier, TanStack Query, Tailwind CSS, VSCode settings, path aliases).
-model: haiku
-effort: max
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.2.2
+  version: 1.2.3
 ---
 
 # Next.js React Project Scaffold
@@ -104,7 +104,7 @@ Next.js 기반 React(SSR) 프로젝트를 스캐폴딩하거나, 기존 프로�
 `eslint.config.js` (또는 `eslint.config.mjs`)에 Prettier 통합 추가:
 
 ```js
-import prettierRecommended from 'eslint-config-prettier'
+import prettierRecommended from 'eslint-plugin-prettier/recommended'
 
 const eslintConfig = defineConfig([
   {
@@ -118,7 +118,7 @@ export default eslintConfig
 TanStack Query가 포함된 경우, 같은 `extends` 배열에 추가:
 
 ```js
-import prettierRecommended from 'eslint-config-prettier'
+import prettierRecommended from 'eslint-plugin-prettier/recommended'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 
 const eslintConfig = defineConfig([

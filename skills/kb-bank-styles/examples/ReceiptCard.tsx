@@ -34,13 +34,13 @@ export default function ReceiptCard({
 }: ReceiptCardProps) {
   const s = STATUS[status]
   return (
-    <div className="rounded-2xl bg-surface shadow-[0_2px_10px_rgba(25,31,40,0.04)]">
+    <div className="rounded-lg bg-surface shadow-card">
       <div className="px-7 pt-7 text-center">
         <div className={`mx-auto grid h-14 w-14 place-items-center rounded-full ${s.bg}`}>
           <span className={`text-2xl font-bold ${s.color}`}>{s.icon}</span>
         </div>
-        <p className={`mt-3 text-[13px] font-bold ${s.color}`}>{s.label}</p>
-        <p className="mt-2 text-[32px] font-bold tracking-tight tabular-nums text-ink">
+        <p className={`mt-3 text-label font-bold ${s.color}`}>{s.label}</p>
+        <p className="mt-2 text-display-2 font-bold tracking-tight tabular-nums text-ink">
           {amount.toLocaleString('ko-KR')}
           <span className="text-xl text-ink-2">원</span>
         </p>
@@ -53,7 +53,7 @@ export default function ReceiptCard({
         <div className="border-t border-dashed border-line-2" />
       </div>
 
-      <dl className="space-y-3 px-7 pb-7 text-[13px]">
+      <dl className="space-y-3 px-7 pb-7 text-label">
         <Row label="보낸 사람" value={`${fromName} · ${fromAccount}`} />
         <Row label="받는 사람" value={toName} />
         <Row label="받는 계좌" value={`${toBank} ${toAccount}`} />
