@@ -1,10 +1,11 @@
 ---
 name: skill-commit
 description: (heropy) Use when committing changes in this project. Analyzes changes to generate appropriate commit messages and bumps skill versions in frontmatter when SKILL.md files are modified.
-model: haiku
+model: sonnet
+effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.1.2
+  version: 1.2.0
 ---
 
 # Commit with Version
@@ -28,7 +29,33 @@ metadata:
 
 기본적으로 patch 버전을 올리되, 변경 규모에 따라 minor 또는 major로 판단한다.
 
-### 3단계: README.md 갱신
+### 3단계: 프론트매터 컨벤션 확인
+
+`skills/*/SKILL.md`의 프론트매터는 아래 형태로 통일한다. 새 스킬을 추가하거나
+기존 스킬을 수정할 때 이 형태에서 벗어나 있으면 함께 맞춘다.
+
+```yaml
+---
+name: <스킬명>
+description: (heropy) <설명. 트리거 조건을 구체적으로 적는다>
+model: sonnet
+effort: high
+metadata:
+  author: ParkYoungWoong
+  version: X.Y.Z
+---
+```
+
+규칙:
+
+- `description`은 `(heropy)` 접두사로 시작한다
+- `model`은 `sonnet`, `effort`는 `high`. **`model: haiku`와 `effort`를 함께 쓰지 않는다.**
+  Haiku는 effort 레벨을 지원하지 않아 둘 중 하나가 무의미해진다
+- `license` 필드는 두지 않는다. Claude Code가 사용하지 않고, MIT 선언은 루트
+  `LICENSE`와 `package.json` / `.claude-plugin/plugin.json`에 있다
+- `metadata`는 자유 형식 맵이므로 `author` / `version`만 둔다
+
+### 4단계: README.md 갱신
 
 변경된 파일 중 `skills/*/SKILL.md`가 포함되어 있으면, 프로젝트 루트의 `README.md`도 함께 갱신한다.
 
@@ -38,7 +65,7 @@ metadata:
 - **스킬 삭제**: README.md에서 해당 스킬 항목을 제거한다
 - 기존 README.md의 포맷과 스타일을 유지한다
 
-### 4단계: 커밋 메시지 작성
+### 5단계: 커밋 메시지 작성
 
 최근 커밋 로그(`git log`)의 스타일을 참고하여 커밋 메시지를 작성한다.
 
@@ -48,7 +75,7 @@ metadata:
 - 필요시 빈 줄 후 상세 설명 추가
 - 여러 스킬이 동시에 수정된 경우, 주요 변경 내용을 기준으로 메시지를 작성
 
-### 5단계: 커밋 실행
+### 6단계: 커밋 실행
 
 변경된 파일을 스테이징하고 커밋한다. README.md가 갱신된 경우 함께 포함한다. 사용자가 푸시를 요청한 경우 푸시도 함께 실행한다.
 
@@ -57,3 +84,5 @@ metadata:
 - 버전 업데이트 자체로 인한 변경은 별도 커밋으로 분리하지 않고, 원래 변경사항과 함께 커밋한다
 - `SKILL.md` 외의 파일만 변경된 경우(예: `README.md`, `package.json`)에는 버전 업데이트를 하지 않는다
 - 이미 현재 커밋에서 버전이 수동으로 변경된 경우, 추가로 버전을 올리지 않는다
+- `.claude-plugin/plugin.json`과 `package.json`의 버전은 스킬 버전과 별개다.
+  스킬이 새로 추가되거나 제거될 때만 함께 올린다
