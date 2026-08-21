@@ -50,7 +50,7 @@ const { myValue, backgroundColor = 'yellow' } = defineProps<{
 ```
 
 Vue 3.5 미만이라면 구조 분해가 반응성을 잃으므로 `withDefaults()`를 쓴다.
-이때 배열·객체 같은 참조형 기본값은 인스턴스마다 별도 값을 갖도록 **함수로 감싸서 반환**한다.
+이때 배열이나 객체 같은 참조형 기본값은 인스턴스마다 별도 값을 갖도록 **함수로 감싸서 반환**한다.
 
 ```vue
 <script setup lang="ts">

@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 2.1.0
+  version: 2.1.1
 ---
 
 # Vite React Project Scaffold
@@ -204,11 +204,11 @@ export default defineConfig([
 ## 다음 단계
 
 이 스킬은 프로젝트의 기반 설정(Tailwind, 경로 별칭, ESLint + Prettier, VSCode)만 담당한다.
-라우팅·서버 상태·전역 상태는 각각 독립 스킬로 분리돼 있으니 필요한 것만 이어서 적용한다.
+라우팅, 서버 상태, 전역 상태는 각각 독립 스킬로 분리돼 있으니 필요한 것만 이어서 적용한다.
 
 | 필요한 것 | 스킬 |
 |---|---|
 | 라우팅 (React Router Data Mode) | `react-router-use` |
 | 서버 데이터 fetching / 캐싱 | `tanstack-react-query-use` |
 | 전역 상태 (스토어) | `zustand-use` |
-| 성능·접근성·SEO 측정 | `lighthouse` |
+| 성능, 접근성, SEO 측정 | `lighthouse` |

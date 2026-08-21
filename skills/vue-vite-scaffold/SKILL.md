@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Vite Vue Project Scaffold
@@ -79,7 +79,7 @@ Vite 기반 Vue 3 프로젝트를 스캐폴딩하거나, 기존 프로젝트의 
 
 JavaScript 프로젝트라면 `--template vue`를 쓴다.
 
-**B. Official Vue Starter** (라우터·Pinia·테스트·린터·포매터를 한 번에 선택)
+**B. Official Vue Starter** (라우터, Pinia, 테스트, 린터, 포매터를 한 번에 선택)
 
 ```bash
 {pm} create vite@latest <프로젝트_폴더_이름>
@@ -93,7 +93,7 @@ JavaScript 프로젝트라면 `--template vue`를 쓴다.
 `Prettier (code formatting)` 등을 스페이스로 선택한다.
 
 공식 스타터는 경로 별칭 `@`, `.editorconfig`, `.vscode/settings.json`을 이미 포함하므로
-**5·8단계를 건너뛴다.** Tailwind는 포함되지 않으므로 4단계는 그대로 수행한다.
+**5단계와 8단계를 건너뛴다.** Tailwind는 포함되지 않으므로 4단계는 그대로 수행한다.
 
 공식 스타터를 골랐다면 아래 "공식 스타터 추가 처리"를 이어서 본다.
 
@@ -164,11 +164,15 @@ Vite가 만든 `tsconfig.json`은 다른 구성 파일을 참조만 하므로 �
 
 Vite의 Vue 템플릿에는 ESLint가 포함되지 않는다. 전부 직접 설치한다.
 
-```bash --caption=TypeScript
+TypeScript 프로젝트:
+
+```bash
 {pm} i -D eslint @eslint/js eslint-plugin-vue @vue/eslint-config-typescript prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
-```bash --caption=JavaScript
+JavaScript 프로젝트:
+
+```bash
 {pm} i -D eslint @eslint/js globals eslint-plugin-vue prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
@@ -185,7 +189,9 @@ Vite의 Vue 템플릿에는 ESLint가 포함되지 않는다. 전부 직접 설�
 
 프로젝트 루트에 `eslint.config.js`를 생성한다.
 
-```js --caption=TypeScript
+TypeScript 프로젝트:
+
+```js
 import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
@@ -202,7 +208,9 @@ export default defineConfigWithVueTs(
 )
 ```
 
-```js --caption=JavaScript
+JavaScript 프로젝트:
+
+```js
 import js from '@eslint/js'
 import globals from 'globals'
 import pluginVue from 'eslint-plugin-vue'
@@ -429,4 +437,4 @@ export default defineConfigWithVueTs(
 |---|---|
 | 라우팅 (Vue Router) | `vue-router-use` |
 | 전역 상태 (스토어) | `pinia-use` |
-| 성능·접근성·SEO 측정 | `lighthouse` |
+| 성능, 접근성, SEO 측정 | `lighthouse` |

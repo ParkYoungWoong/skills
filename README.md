@@ -47,7 +47,7 @@ npx skills add ParkYoungWoong/skills --skill react-vite-scaffold
   - ESLint + Prettier (통합 구성)
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
-- 라우팅·서버 상태·전역 상태는 각각 `react-router-use`, `tanstack-react-query-use`, `zustand-use` 스킬로 분리
+- 라우팅, 서버 상태, 전역 상태는 각각 `react-router-use`, `tanstack-react-query-use`, `zustand-use` 스킬로 분리
 
 ### [react-next-scaffold](./skills/react-next-scaffold/SKILL.md)
 
@@ -173,7 +173,7 @@ npx skills add ParkYoungWoong/skills --skill vue-router-use
 
 ### [pinia-use](./skills/pinia-use/SKILL.md)
 
-Vue 프로젝트에서 Pinia로 전역 상태(스토어)를 설계·작성하는 표준 패턴을 따릅니다.
+Vue 프로젝트에서 Pinia로 전역 상태(스토어)를 설계하고 작성하는 표준 패턴을 따릅니다.
 
 ```bash
 npx skills add ParkYoungWoong/skills --skill pinia-use
@@ -211,7 +211,7 @@ KB국민은행 / KB스타뱅킹의 시각 언어를 따라 한국 금융권(뱅�
 npx skills add ParkYoungWoong/skills --skill kb-bank-styles
 ```
 
-- 디자인 토큰 (컬러·타이포·스페이싱·라운딩·그림자), Tailwind v4 `@theme` 기반
+- 디자인 토큰 (컬러, 타이포, 스페이싱, 라운딩, 그림자), Tailwind v4 `@theme` 기반
 - 모바일(KB스타뱅킹) / 웹(kbstar.com) 두 가지 프리셋
 - 컴포넌트 스니펫 16종 (Button, AccountCard, AmountInput, BottomSheet 등)
 - 홈/송금/내역 페이지 템플릿

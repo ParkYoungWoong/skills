@@ -203,7 +203,7 @@ watch(id, (newId, oldId, onCleanup) => {
 | `onMounted` | 마운트 완료. **DOM 접근은 여기서** |
 | `onBeforeUpdate` | 갱신 직전 |
 | `onUpdated` | 갱신 완료 |
-| `onBeforeUnmount` | 언마운트 직전. **타이머·리스너 정리** |
+| `onBeforeUnmount` | 언마운트 직전. **타이머와 리스너 정리** |
 | `onUnmounted` | 언마운트 완료 |
 | `onErrorCaptured` | 하위 컴포넌트 에러 포착 |
 

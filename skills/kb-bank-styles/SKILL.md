@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # KB Bank Style Guide (KB국민은행 / KB스타뱅킹 UI)
@@ -55,13 +55,18 @@ KB의 시각적 코어는 단 두 가지다:
 KB의 정확한 브랜드 컬러는 KB금융그룹 CI 가이드(별색 기준)에 정의되어 있으며,
 공개 자료 기반의 가장 널리 알려진 근사값은 다음과 같다.
 
+> **토큰의 정본은 `assets/tokens.css`다.** 아래는 컬러 부분만 옮긴 발췌이며,
+> 타이포, 라운딩, 그림자 토큰은 4절과 5절에서 다룬다. 값을 고칠 때는 `assets/tokens.css`를
+> 먼저 고치고 이 발췌를 맞춘다.
+
 ```css
-/* assets/tokens.css 와 동일 */
 @theme {
   /* Brand */
   --color-kb-yellow:        #FFBC00;  /* Star-b Yellow (KB 시그니처) */
   --color-kb-yellow-strong: #FFCC00;  /* 강조/상태(클릭) */
   --color-kb-yellow-soft:   #FFF7DB;  /* 노랑 톤 배경 */
+  --color-kb-yellow-light:  #FFD43A;  /* 카드 그라디언트 밝은 쪽 */
+  --color-kb-yellow-deep:   #E3A500;  /* 카드 그라디언트 어두운 쪽 */
   --color-kb-dark:          #60584C;  /* KB 보조 다크 (스톤 그레이) */
   --color-kb-black:         #1A1A1A;  /* 본문 강조 블랙 */
 

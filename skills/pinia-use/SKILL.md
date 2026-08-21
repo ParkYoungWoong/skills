@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Pinia 사용 규칙
@@ -264,7 +264,7 @@ const { increase, decrease } = countStore
 | 멤버 | 용도 |
 |---|---|
 | `$id` | 스토어 ID 문자열 |
-| `$state` | 게터·액션을 뺀 상태 객체. 반응형이라 직접 수정도 가능 |
+| `$state` | 게터와 액션을 뺀 상태 객체. 반응형이라 직접 수정도 가능 |
 | `$patch` | 여러 상태를 단일 작업으로 변경 |
 | `$subscribe` | 상태 변경 구독 |
 | `$onAction` | 액션 호출 구독 |
@@ -370,7 +370,7 @@ countStore.$dispose()
 - [ ] 게터에 비동기 요청이나 부수 효과가 없다
 - [ ] 다른 게터를 참조하는 게터는 일반 함수 + `this` + 반환 타입 명시
 - [ ] 컴포넌트에서 스토어 인스턴스를 그냥 구조 분해하지 않았다
-- [ ] 구조 분해했다면 상태·게터는 `storeToRefs`, 액션은 인스턴스에서 직접
+- [ ] 구조 분해했다면 상태와 게터는 `storeToRefs`, 액션은 인스턴스에서 직접
 - [ ] 여러 상태를 함께 바꿀 때 `$patch`를 썼다
 - [ ] 셋업 스토어라면 `$reset`을 직접 정의했다
 - [ ] `mutation.events`를 실제 로직에서 쓰지 않았다

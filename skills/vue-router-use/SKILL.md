@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Vue Router 사용 규칙
@@ -366,4 +366,4 @@ routes: [
 |---|---|
 | 프로젝트 기반 설정 (Tailwind, 경로 별칭, ESLint + Prettier) | `vue-vite-scaffold` |
 | 전역 상태 (스토어) | `pinia-use` |
-| 성능·접근성·SEO 측정 | `lighthouse` |
+| 성능, 접근성, SEO 측정 | `lighthouse` |
