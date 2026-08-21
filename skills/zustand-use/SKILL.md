@@ -2,10 +2,10 @@
 name: zustand-use
 description: (heropy) React 프로젝트에서 Zustand(주스탠드)로 전역 상태(스토어)를 설계, 작성할 때 사용한다. 사용자가 "zustand", "주스탠드", "전역 상태", "스토어 분리", "스토어 생성", "스토어 만들어 줘", "OO 스토어 생성", "상태 관리 라이브러리", "create 함수", "useShallow", "persist/immer/devtools 미들웨어"를 언급하거나, React 컴포넌트 간 prop drilling을 해소하려 할 때 반드시 이 스킬을 따른다. 스토어 정의 패턴(액션 분리, 초기화, 삭제), 선택자 사용 규칙, 미들웨어 합성 순서, TypeScript 작성법, 트리거 입력으로 스토어 파일을 자동 생성하는 절차까지 포함한다.
 model: haiku
-effort: max
+effort: xhigh
 metadata:
   author: ParkYoungWoong
-  version: 1.0.2
+  version: 1.1.0
 ---
 
 # Zustand 사용 가이드
@@ -16,11 +16,11 @@ Zustand는 작고 빠른 React 상태 관리 라이브러리다. `create` 함수
 
 ## 핵심 원칙 (먼저 읽기)
 
-1. **스토어 파일은 `src/store/<이름>.ts` 한 파일에 정의한다.** Redux처럼 슬라이스/스토어/리듀서를 여러 파일로 쪼개지 않는다. 이게 Zustand를 쓰는 이유다.
+1. **스토어 파일은 `src/stores/<이름>.ts` 한 파일에 정의한다.** Redux처럼 슬라이스/스토어/리듀서를 여러 파일로 쪼개지 않는다. 이게 Zustand를 쓰는 이유다.
 2. **스토어 훅 명명은 `use이름Store`.** `use` 접두사 + `Store` 접미사. 예: `useCountStore`, `useUserStore`.
 3. **컴포넌트에서는 선택자 함수로 "하나의 상태(또는 액션)"만 꺼낸다.** 객체 통째로 꺼내면 무관한 상태 변경에도 리렌더링된다.
-4. **여러 값을 한 번에 꺼낼 때는 반드시 `useShallow`** (`zustand/shallow`)로 감싼다. 그냥 객체/배열을 반환하면 매 렌더마다 새 참조라, React가 `getSnapshot should be cached to avoid an infinite loop` 경고를 띄우며 리렌더링이 반복된다.
-5. **액션은 `actions` 객체로 모아둔다.** 컴포넌트가 액션 묶음을 한 번에 가져오기 쉽고, 상태 초기화 시 액션을 분리해 다루기 좋다. 단, `persist` 미들웨어를 쓸 때는 `actions`가 JSON 직렬화되지 않으므로 이 구조를 풀어야 한다(아래 [스토리지](#persist--스토리지에-상태-저장) 참고).
+4. **기본은 한 번에 하나씩 꺼내는 것.** 여러 값을 한 객체/배열로 묶어 꺼내는 건 특별한 상황이나 사용자 요청이 있을 때만 한다. 이때는 반드시 `useShallow`(`zustand/shallow`)로 감싼다. 그냥 객체/배열을 반환하면 매 렌더마다 새 참조라, React가 `getSnapshot should be cached to avoid an infinite loop` 경고를 띄우며 리렌더링이 반복된다.
+5. **액션은 상태와 같은 레벨의 함수로 정의한다.** 별도 `actions` 객체로 묶지 않는다. 컴포넌트에서는 `state => state.increase`처럼 액션도 하나씩 선택해 가져온다. 함수 참조는 변하지 않으므로 개별 선택해도 리렌더링되지 않는다.
 6. **TypeScript는 두 가지 방식.** 직접 타입 작성(`create<State & Actions>()`) 또는 `combine` 미들웨어로 추론. 새 스토어는 우선 `combine` + `immer` 조합을 기본으로 검토한다.
 
 ## 스토어 파일 자동 생성 (트리거 입력)
@@ -36,7 +36,7 @@ Zustand는 작고 빠른 React 상태 관리 라이브러리다. `create` 함수
 
 2. **언어 판별.** 프로젝트 루트(또는 가까운 상위)에 `tsconfig.json`이 있거나 `src` 아래 `.ts`/`.tsx` 파일이 있으면 **TypeScript**, 아니면 **JavaScript**로 본다. TypeScript면 확장자 `.ts`, 아니면 `.js`.
 
-3. **스토어 폴더 탐색.** 다음 순서로 기존 폴더를 찾아 거기에 생성한다: `src/store` → `src/stores` → `src/state`. 모두 없으면 **`src/store`를 새로 만들어** 거기에 생성한다. (`src`가 없는 비표준 구조면 사용자에게 위치를 확인한다.)
+3. **스토어 폴더 탐색.** 다음 순서로 기존 폴더를 찾아 거기에 생성한다: `src/stores` → `src/store` → `src/state`. 모두 없으면 **`src/stores`를 새로 만들어** 거기에 생성한다. (`src`가 없는 비표준 구조면 사용자에게 위치를 확인한다.)
 
 4. **충돌 확인.** 같은 이름의 파일이 이미 있으면 덮어쓰지 말고 사용자에게 알린다.
 
@@ -99,7 +99,7 @@ v5는 `use-sync-external-store`가 피어 의존성으로 바뀌었다. React 18
 
 ### 가장 단순한 형태
 
-```ts --path=/src/store/count.ts
+```ts --path=/src/stores/count.ts
 import { create } from 'zustand'
 
 export const useCountStore = create<{
@@ -117,58 +117,55 @@ export const useCountStore = create<{
 - `set`은 부분 상태 객체를 받아 **병합**한다. 콜백 형태 `set(state => ({...}))`를 쓰면 현재 상태 기반 갱신이 안전하다.
 - `get`은 액션 내부에서 현재 스토어 객체(상태+액션)를 얻을 때 사용한다. 단순 갱신에는 `set` 콜백이 더 간결하다.
 
-### 액션 분리 (`actions` 객체) — 권장 기본형
+### 상태와 액션을 같은 레벨에 정의 — 기본형
 
-여러 컴포넌트가 단일 스토어의 액션을 자주 호출하면, 액션을 `actions` 한 객체로 묶는다. 컴포넌트가 `state => state.actions`로 액션 묶음만 가져오면 액션 참조는 변하지 않으므로 리렌더링도 발생하지 않는다.
+상태와 액션을 한 객체의 최상위에 나란히 둔다. 액션을 별도 `actions` 객체로 묶지 않는다. 타입은 `State`와 `Actions`로 나눠 정의하되 합쳐서(`State & Actions`) 전달한다.
 
-```ts --path=/src/store/count.ts
+```ts --path=/src/stores/count.ts
 import { create } from 'zustand'
 
 interface State {
   count: number
 }
 interface Actions {
-  actions: {
-    increase: () => void
-    decrease: () => void
-  }
+  increase: () => void
+  decrease: () => void
 }
 
 export const useCountStore = create<State & Actions>(set => ({
   count: 1,
-  actions: {
-    increase: () => set(state => ({ count: state.count + 1 })),
-    decrease: () => set(state => ({ count: state.count - 1 }))
-  }
+  increase: () => set(state => ({ count: state.count + 1 })),
+  decrease: () => set(state => ({ count: state.count - 1 }))
 }))
 ```
 
+컴포넌트에서는 상태든 액션이든 하나씩 선택해 가져온다. 함수 참조는 변하지 않으므로 액션을 개별 선택해도 리렌더링되지 않는다.
+
 ```tsx --path=/src/App.tsx
 const count = useCountStore(state => state.count)
-const { increase, decrease } = useCountStore(state => state.actions)
+const increase = useCountStore(state => state.increase)
+const decrease = useCountStore(state => state.decrease)
 ```
 
 ### 상태 초기화 (`resetState`)
 
-상태와 액션 타입을 분리하고, `initialState`를 변수로 빼서 액션을 통해 되돌린다. 액션을 포함해 통째로 `set`하지 않도록 주의(액션이 사라진다).
+상태와 액션 타입을 분리하고, `initialState`를 변수로 빼서 액션을 통해 되돌린다. `set(initialState)`는 병합이라 액션 함수는 그대로 남지만, 덮어쓰기 모드(`set(initialState, true)`)를 쓰면 액션까지 사라지니 주의한다.
 
-```ts --path=/src/store/count.ts
+```ts --path=/src/stores/count.ts
 const initialState: State = { count: 1, double: 2, min: 0, max: 99 }
 
 export const useCountStore = create<State & Actions>(set => ({
   ...initialState,
-  actions: {
-    increase: () => set(state => ({ count: state.count + 1 })),
-    decrease: () => set(state => ({ count: state.count - 1 })),
-    resetState: keys => {
-      if (!keys) {
-        set(initialState)        // 전체 초기화
-        return
-      }
-      keys.forEach(key => {      // 일부 키만 초기화
-        set({ [key]: initialState[key] })
-      })
+  increase: () => set(state => ({ count: state.count + 1 })),
+  decrease: () => set(state => ({ count: state.count - 1 })),
+  resetState: keys => {
+    if (!keys) {
+      set(initialState)        // 전체 초기화
+      return
     }
+    keys.forEach(key => {      // 일부 키만 초기화
+      set({ [key]: initialState[key] })
+    })
   }
 }))
 ```
@@ -177,7 +174,7 @@ export const useCountStore = create<State & Actions>(set => ({
 
 `set` 함수의 두 번째 인수(기본값 `false`)에 `true`를 전달하면 병합하지 않고 **덮어쓴다**. `lodash-es`의 `omit`과 조합해 특정 키를 삭제한다.
 
-```ts --path=/src/store/count.ts
+```ts --path=/src/stores/count.ts
 import { omit } from 'lodash-es'
 
 deleteState: keys => {
@@ -185,7 +182,7 @@ deleteState: keys => {
 }
 ```
 
-> 주의: `true`로 덮어쓰면 액션까지 사라질 수 있다. `actions` 객체로 분리해 두고 `keys`에 절대 `'actions'`를 포함하지 않도록 한다.
+> 주의: `true`로 덮어쓰면 반환 객체에 없는 속성은 모두 사라진다. `omit(state, keys)`는 `keys`만 제거하고 액션 함수는 그대로 남기므로 안전하지만, `keys`에 액션 이름을 넣으면 그 액션이 삭제되니 주의한다.
 
 
 ## 컴포넌트에서 사용하기
@@ -194,7 +191,7 @@ deleteState: keys => {
 
 ```tsx
 const count = useCountStore(state => state.count)
-const increase = useCountStore(state => state.actions.increase)
+const increase = useCountStore(state => state.increase)
 ```
 
 ### 절대 하면 안 되는 패턴
@@ -207,13 +204,13 @@ return <h2>{store.count}</h2>
 // ❌ 선택자가 매번 새 객체를 반환 → React 경고(getSnapshot should be cached…) + 리렌더링 반복
 const { count, increase } = useCountStore(state => ({
   count: state.count,
-  increase: state.actions.increase
+  increase: state.increase
 }))
 ```
 
-### 여러 값을 한 번에: `useShallow`
+### 여러 값을 한 번에 묶기: `useShallow` (예외적으로만)
 
-`zustand/shallow`의 `useShallow`로 감싸 객체나 배열을 얕은 비교로 메모이즈한다.
+기본은 위의 "한 번에 하나씩" 패턴이다. 여러 값을 한 객체/배열로 묶어 꺼내야 하는 특별한 경우(또는 사용자가 그렇게 요청한 경우)에만 `useShallow`를 쓴다. `zustand/shallow`의 `useShallow`로 감싸 객체나 배열을 얕은 비교로 메모이즈한다.
 
 ```tsx
 import { useShallow } from 'zustand/shallow'
@@ -222,14 +219,14 @@ import { useShallow } from 'zustand/shallow'
 const { count, increase, decrease } = useCountStore(
   useShallow(state => ({
     count: state.count,
-    increase: state.actions.increase,
-    decrease: state.actions.decrease
+    increase: state.increase,
+    decrease: state.decrease
   }))
 )
 
 // 배열 반환 (구조 분해와 잘 맞음)
 const [count, increase, decrease] = useCountStore(
-  useShallow(state => [state.count, state.actions.increase, state.actions.decrease])
+  useShallow(state => [state.count, state.increase, state.decrease])
 )
 ```
 
@@ -250,7 +247,7 @@ create(devtools(persist(subscribeWithSelector(immer(combine(state, actions))))))
 
 타입을 직접 쓰지 않고 추론시키고 싶을 때.
 
-```ts --path=/src/store/count.ts
+```ts --path=/src/stores/count.ts
 import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 
@@ -258,10 +255,8 @@ const initialState = { count: 1, double: 2, min: 0, max: 99 }
 
 export const useCountStore = create(
   combine(initialState, set => ({
-    actions: {
-      increase: () => set(state => ({ count: state.count + 1 })),
-      decrease: () => set(state => ({ count: state.count - 1 }))
-    }
+    increase: () => set(state => ({ count: state.count + 1 })),
+    decrease: () => set(state => ({ count: state.count - 1 }))
   }))
 )
 ```
@@ -279,7 +274,7 @@ const initialState = {
 
 #### 주의: `combine`에서는 `get()`이 액션 타입을 추론하지 못한다
 
-`combine` 사용 중 액션 안에서 다른 액션을 호출해야 하면, `get().actions.xxx()`가 타입 에러를 낸다. **함수 호이스팅**을 활용해 액션을 별도 함수로 뽑아 쓴다.
+`combine` 사용 중 액션 안에서 다른 액션을 호출해야 하면, `get().xxx()`가 타입 에러를 낸다. **함수 호이스팅**을 활용해 액션을 별도 함수로 뽑아 쓴다.
 
 ```ts
 combine(initialState, set => {
@@ -290,7 +285,7 @@ combine(initialState, set => {
   function increaseDouble() {
     set(state => ({ double: state.count * 2 }))
   }
-  return { actions: { increase, increaseDouble } }
+  return { increase, increaseDouble }
 })
 ```
 
@@ -304,14 +299,12 @@ import { immer } from 'zustand/middleware/immer'
 export const useUserStore = create(
   immer<State & Actions>(set => ({
     ...initialState,
-    actions: {
-      setDisplayName: name => {
-        set(state => {
-          if (state.user) {
-            state.user.displayName = name   // 직접 대입 가능
-          }
-        })
-      }
+    setDisplayName: name => {
+      set(state => {
+        if (state.user) {
+          state.user.displayName = name   // 직접 대입 가능
+        }
+      })
     }
   }))
 )
@@ -327,7 +320,7 @@ create(immer(combine(initialState, set => ({ /* ... */ }))))
 
 스토어 외부에서 특정 상태만 감시하고 부수효과를 수행한다. 계산된 상태(Computed) 패턴에 유용하다.
 
-```ts --path=/src/store/count.ts
+```ts --path=/src/stores/count.ts
 import { create } from 'zustand'
 import { combine, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
@@ -338,10 +331,8 @@ export const useCountStore = create(
   subscribeWithSelector(
     immer(
       combine(initialState, set => ({
-        actions: {
-          increase: () => set(state => { state.count += 1 }),
-          decrease: () => set(state => { state.count -= 1 })
-        }
+        increase: () => set(state => { state.count += 1 }),
+        decrease: () => set(state => { state.count -= 1 })
       }))
     )
   )
@@ -386,7 +377,7 @@ export const useCountStore = create(
     subscribeWithSelector(
       immer(
         combine(initialState, set => ({
-          // ⚠️ persist에서는 액션을 actions 객체로 묶지 말 것
+          // 액션은 상태와 같은 레벨에 둔다
           increase: () => set(state => { state.count += 1 }),
           decrease: () => set(state => { state.count -= 1 })
         }))
@@ -400,7 +391,7 @@ export const useCountStore = create(
 )
 ```
 
-> **중요**: `persist`는 JSON 직렬화가 불가능한 값을 저장하지 못한다. `actions` 객체에 함수만 있으면 빈 객체 `{}`로 저장되어 새로고침 후 액션이 사라진다. `persist`를 쓸 때는 액션 분리 패턴을 **풀어서** 액션을 상태 객체의 최상위 속성으로 둔다. 함수는 코드에서 새로 정의되니 영향이 없다(저장되는 건 상태 값뿐).
+> **중요**: `persist`는 JSON 직렬화가 불가능한 값을 저장하지 못한다. 액션 함수는 직렬화되지 않지만 코드에서 새로 정의되므로 문제없다(저장되는 건 상태 값뿐).
 
 ### `devtools` — Redux DevTools
 
@@ -435,12 +426,10 @@ useCountStore.subscribe(listener)        // 구독
 API 호출 같은 비동기 로직은 그냥 액션 안에서 `async` 함수로 작성한다. 별도 미들웨어 불필요.
 
 ```ts
-actions: {
-  fetchUser: async (id: string) => {
-    const res = await fetch(`/api/users/${id}`)
-    const user = await res.json()
-    set({ user })
-  }
+fetchUser: async (id: string) => {
+  const res = await fetch(`/api/users/${id}`)
+  const user = await res.json()
+  set({ user })
 }
 ```
 
@@ -449,12 +438,12 @@ actions: {
 
 새 스토어 또는 컴포넌트 사용 코드를 작성할 때 항상 검토:
 
-- [ ] 파일 위치는 `src/store/<이름>.ts`, 훅 이름은 `use이름Store`
+- [ ] 파일 위치는 `src/stores/<이름>.ts`, 훅 이름은 `use이름Store`
 - [ ] 컴포넌트에서 `useStore()`로 객체 전체를 받지 않는다
-- [ ] 다중 선택은 `useShallow`로 감싼다
-- [ ] 액션을 자주 함께 쓰면 `actions: { ... }` 객체로 묶는다 (단, `persist` 사용 시는 풀어서 둔다)
+- [ ] 기본은 하나씩 선택. 꼭 여러 값을 묶어야 할 때만 `useShallow`로 감싼다
+- [ ] 액션은 상태와 같은 레벨의 함수로 정의하고, 컴포넌트에서 하나씩 선택한다
 - [ ] 미들웨어 합성 순서: `devtools(persist(subscribeWithSelector(immer(combine(...)))))`
-- [ ] `combine` 사용 시 액션 간 호출은 함수 호이스팅으로 처리 (`get().actions.x()` 금지)
+- [ ] `combine` 사용 시 액션 간 호출은 함수 호이스팅으로 처리 (`get().x()` 타입 추론 안 됨)
 - [ ] 상태 초기화가 필요하면 `initialState` 변수 + `resetState` 액션 패턴
 - [ ] `set(..., true)`로 덮어쓸 때 액션을 보존했는지 확인
 - [ ] `persist`의 `name`은 프로젝트 내 유일하게

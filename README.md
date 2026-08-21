@@ -124,9 +124,9 @@ React 프로젝트에서 Zustand로 전역 상태(스토어)를 설계·작성�
 npx skills add ParkYoungWoong/skills --skill zustand-use
 ```
 
-- 단일 파일(`src/store/<이름>.ts`) 스토어 정의, `use이름Store` 명명 규칙
-- 액션 분리(`actions` 객체) 패턴, 상태 초기화/삭제 패턴
-- 선택자(Selector) 사용 규칙 및 `useShallow`로 다중 값 구독
+- 단일 파일(`src/stores/<이름>.ts`) 스토어 정의, `use이름Store` 명명 규칙
+- 액션을 상태와 같은 레벨에 정의하는 패턴, 상태 초기화/삭제 패턴
+- 선택자(Selector)로 한 번에 하나씩 구독, 묶어서 구독할 때만 `useShallow`
 - 미들웨어 합성 순서: `devtools(persist(subscribeWithSelector(immer(combine(...)))))`
 - TypeScript: `combine` 추론 방식 / JavaScript: 순수 `create` 최소 템플릿
 - 트리거 입력('OO 스토어 생성')으로 스토어 폴더 탐색/생성 및 기본 템플릿 파일 자동 생성
