@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Zustand 사용 가이드
@@ -77,19 +77,23 @@ export const useCountStore = create(() => ({
 
 ## 설치
 
+> `{pm}`은 프로젝트의 lock 파일로 판별한 패키지 매니저로 대체한다.
+> `pnpm-lock.yaml` -> `pnpm`, `yarn.lock` -> `yarn`, `bun.lockb` / `bun.lock` -> `bun`,
+> `package-lock.json` 또는 lock 파일 없음 -> `npm`.
+
 ```bash
-npm i zustand
+{pm} i zustand
 ```
 
 선택적 피어 의존성:
 
 ```bash
 # Immer 미들웨어를 쓸 때
-npm i immer
+{pm} i immer
 
 # 상태 삭제(omit) 패턴을 쓸 때
-npm i lodash-es
-npm i -D @types/lodash-es
+{pm} i lodash-es
+{pm} i -D @types/lodash-es
 ```
 
 v5는 `use-sync-external-store`가 피어 의존성으로 바뀌었다. React 18+ 환경에서는 별도 설치 없이 동작하나, 특정 환경에서 누락 경고가 뜨면 직접 설치한다.
@@ -462,3 +466,13 @@ fetchUser: async (id: string) => {
 | 비동기 | `createAsyncThunk` / Saga | 액션 내 `async` |
 
 Zustand를 선택했다는 건 "보일러플레이트를 줄이고 단일 파일로 끝낸다"는 결정이다. 그 결정을 코드에서도 유지하라.
+
+## 함께 보는 스킬
+
+- 프로젝트 기반 설정(Tailwind, 경로 별칭, ESLint + Prettier)이 없으면
+  `react-vite-scaffold` 또는 `react-next-scaffold`를 먼저 적용한다
+- **서버에서 받아 온 데이터는 Zustand에 넣지 않는다.** 캐싱·재검증·무효화가 필요한
+  서버 상태는 `tanstack-react-query-use`의 영역이다. Zustand는 클라이언트 전역 상태
+  (UI 상태, 폼 임시값, 인증 토큰 등)만 담당한다
+- Next.js로 옮길 때 스토어 파일 자체는 그대로 쓸 수 있다. 다만 스토어를 쓰는 컴포넌트는
+  클라이언트 컴포넌트여야 하므로 `'use client'`가 필요하다 (`react-vite-to-next-migration` 11단계)

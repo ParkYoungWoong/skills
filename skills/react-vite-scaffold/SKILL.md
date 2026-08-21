@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 2.0.0
+  version: 2.1.0
 ---
 
 # Vite React Project Scaffold
@@ -23,7 +23,7 @@ Vite 기반 React(CSR) 프로젝트를 스캐폴딩하거나, 기존 프로젝�
 3. 프로젝트 생성 [스캐폴딩 모드일 때만] (3단계)
 4. Tailwind CSS 설치 및 구성 [tailwindcss 미설치 시] (4단계)
 5. 경로 별칭 구성 [vite.config/tsconfig에 alias 미설정 시] (5단계)
-6. ESLint + Prettier 구성 [.prettierrc 또는 prettier 패키지 미설치 시] (6단계)
+6. ESLint + Prettier 구성 [prettier 패키지 또는 eslint-plugin-prettier 미설치 시] (6단계)
 7. .prettierrc 생성 [파일 없을 때] (7단계)
 8. .vscode/settings.json 생성 [파일 없을 때] (8단계)
 9. **최종 검증** — 1단계 감지 표를 다시 돌며 모든 구성이 충족됐는지 확인, 누락 시 해당 단계 재실행 (9단계)
@@ -200,3 +200,15 @@ export default defineConfig([
   - `bun.lockb` 또는 `bun.lock` → `bun`
   - `package-lock.json` 또는 lock 파일 없음 → `npm`
 - 빈 디렉토리(스캐폴딩 모드)에서는 `npm`을 사용한다
+
+## 다음 단계
+
+이 스킬은 프로젝트의 기반 설정(Tailwind, 경로 별칭, ESLint + Prettier, VSCode)만 담당한다.
+라우팅·서버 상태·전역 상태는 각각 독립 스킬로 분리돼 있으니 필요한 것만 이어서 적용한다.
+
+| 필요한 것 | 스킬 |
+|---|---|
+| 라우팅 (React Router Data Mode) | `react-router-use` |
+| 서버 데이터 fetching / 캐싱 | `tanstack-react-query-use` |
+| 전역 상태 (스토어) | `zustand-use` |
+| 성능·접근성·SEO 측정 | `lighthouse` |

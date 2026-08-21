@@ -3,7 +3,7 @@
 [HEROPY](https://heropy.dev)의 스킬 모음입니다.
 
 ```bash
-npx skills add ParkYoungWoong/skills  
+npx skills add ParkYoungWoong/skills
 ```
 
 **설치 예시:**
@@ -44,12 +44,10 @@ npx skills add ParkYoungWoong/skills --skill react-vite-scaffold
 - 기존 프로젝트의 누락된 설정 자동 감지 및 보완
 - 기본 포함 항목:
   - Tailwind CSS
-  - TanStack Query + QueryClientProvider
-  - React Router (라우터 구성 + 페이지 생성)
-  - Zustand (스토어 예시 생성)
   - ESLint + Prettier (통합 구성)
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
+- 라우팅·서버 상태·전역 상태는 각각 `react-router-use`, `tanstack-react-query-use`, `zustand-use` 스킬로 분리
 
 ### [react-next-scaffold](./skills/react-next-scaffold/SKILL.md)
 
@@ -83,6 +81,7 @@ npx skills add ParkYoungWoong/skills --skill react-vite-to-next-migration
 - `VITE_*` 환경 변수 → `NEXT_PUBLIC_*` 변환 및 `import.meta.env.*` 치환
 - 클라이언트/서버 컴포넌트 자동 판별 (`'use client'` 추가)
 - Tailwind CSS / TanStack Query / Zustand 사용 시 자동 처리
+- 빌드/lint 통과 및 Vite 잔존물 제거를 확인하는 최종 검증 단계
 
 ### [react-router-use](./skills/react-router-use/SKILL.md)
 
@@ -98,8 +97,9 @@ npx skills add ParkYoungWoong/skills --skill react-router-use
 - 동적 세그먼트 / 중첩 라우팅 / 404 페이지
 - 보호된 경로 (Loader + `redirect`)
 - 페이지 지연 로딩 (`lazy` + `Suspense` + `ErrorBoundary`)
-- 페이지 전환 애니메이션 (Framer Motion)
+- 페이지 전환 애니메이션 (Motion)
 - SPA 호스팅 리라이트 설정 (Vercel / Netlify / Firebase)
+- 기능별 상세 가이드는 `references/`로 분리되어 필요할 때만 로드
 
 ### [tanstack-react-query-use](./skills/tanstack-react-query-use/SKILL.md)
 
@@ -115,6 +115,7 @@ npx skills add ParkYoungWoong/skills --skill tanstack-react-query-use
 - 무한 스크롤 / 페이지네이션 구현
 - Next.js App Router 환경 지원 (`useSuspenseQuery` + SSR)
 - ReactQueryDevtools 및 `@tanstack/eslint-plugin-query` 설정
+- 작성 후 확인용 체크리스트 제공
 
 ### [zustand-use](./skills/zustand-use/SKILL.md)
 

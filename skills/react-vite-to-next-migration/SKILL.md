@@ -5,13 +5,30 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.2
+  version: 1.1.0
 ---
 
 # Vite React → Next.js App Router 마이그레이션
 
 Vite + React(TS) 프로젝트를 Next.js(App Router, v16) 프로젝트로 변환하는 스킬.
 기존 코드의 동작을 유지하면서 Next.js 구조로 옮기는 것이 목표.
+
+## 필수 실행 체크리스트 (MANDATORY)
+
+**스킬 시작 즉시, 아래 항목을 TodoWrite에 1:1로 등록한 뒤 순서대로 진행한다. 건너뛰기 금지.**
+
+1. 프로젝트 상태 감지 (1단계)
+2. 의존성 교체 및 스크립트 변경 (2~3단계)
+3. 설정 파일 교체 (4단계)
+4. 진입점 변환 (5단계)
+5. 라우팅 변환 [React Router 사용 시] (6단계)
+6. 환경 변수 변환 [`VITE_*` 존재 시] (7단계)
+7. 경로 별칭 및 정적 자산 (8~9단계)
+8. 스타일링 설정 [Tailwind 사용 시] (10단계)
+9. TanStack Query / Zustand 처리 [해당 패키지 존재 시] (11단계)
+10. **정리 및 최종 검증** (12단계)
+
+각 항목은 조건 미충족 시 "skipped"로 완료 처리하되, **조건 판단 근거(파일/패키지 존재 여부)를 명시**한 뒤 넘어간다.
 
 ## 동작 흐름
 
@@ -259,6 +276,22 @@ export default {
    - `import.meta.env` 잔존 → 7단계 규칙으로 치환
    - React Router API 잔존 → 6단계 규칙으로 치환
 
+**최종 검증 (MANDATORY)**
+
+1단계의 감지 표를 **다시 한 번 스캔**하여 아래를 모두 확인한다. 하나라도 실패하면
+해당 단계로 돌아가 즉시 보완한다. 검증 통과 전에는 작업 종료 금지.
+
+- [ ] `{pm} run build`가 성공한다
+- [ ] `{pm} run lint`가 성공한다 (`next lint`가 아니라 `eslint`를 호출하는지 확인)
+- [ ] `grep -rn "import.meta.env" src/` 결과가 없다
+- [ ] `grep -rn "from 'react-router" src/` 결과가 없다
+- [ ] `grep -rn "VITE_" src/ .env*` 결과가 없다 (모두 `NEXT_PUBLIC_`으로 전환됨)
+- [ ] `vite.config.*`, `index.html`, `src/main.tsx`가 제거됐다
+- [ ] `package.json`의 dependencies에 `vite`, `@vitejs/plugin-react*`, `react-router*`가 없다
+- [ ] 브라우저 전용 API(`window`, `document`, `localStorage`)를 쓰는 컴포넌트 파일 상단에
+      `'use client'`가 있다
+- [ ] 기존 `public/` 자산 경로가 그대로 동작한다
+
 ## 주의사항
 
 - 라우팅 구조와 페이지별 클라이언트/서버 컴포넌트 결정은 자동으로 판별하되, 모호한 경우 안전을 위해 `'use client'`를 추가한다.
@@ -269,3 +302,4 @@ export default {
   - `bun.lockb` 또는 `bun.lock` → `bun`
   - `package-lock.json` 또는 lock 파일 없음 → `npm`
 - 마이그레이션 후 추가 설정(ESLint + Prettier, VSCode, Tailwind 통합 등)이 필요하다면 `react-next-scaffold` 스킬을 이어서 실행하면 된다.
+- 이 스킬이 소비하는 원본 라우터 구조(`src/routes/index.tsx`, `src/routes/layouts/`, `src/routes/pages/`)는 `react-router-use` 스킬이 만드는 구조다. 원본 프로젝트의 라우팅이 그 형태가 아니면 6단계 매핑을 상황에 맞게 조정한다.

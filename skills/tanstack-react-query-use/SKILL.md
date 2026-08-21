@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # TanStack Query (React Query) 사용 가이드
@@ -41,11 +41,19 @@ TanStack Query는 **`queryKey`별로 응답을 캐시**하고, 캐시 데이터�
 
 ## 설치 및 Provider 구성
 
+> 프로젝트 초기 설정(Tailwind, ESLint, Prettier, 경로 별칭)이 아직 없다면
+> Vite 프로젝트는 `react-vite-scaffold`, Next.js 프로젝트는 `react-next-scaffold`
+> 스킬을 먼저 적용한다.
+
+> `{pm}`은 프로젝트의 lock 파일로 판별한 패키지 매니저로 대체한다.
+> `pnpm-lock.yaml` -> `pnpm`, `yarn.lock` -> `yarn`, `bun.lockb` / `bun.lock` -> `bun`,
+> `package-lock.json` 또는 lock 파일 없음 -> `npm`.
+
 ### Vite (CSR)
 
 ```bash
-npm i @tanstack/react-query
-npm i -D @tanstack/eslint-plugin-query
+{pm} i @tanstack/react-query
+{pm} i -D @tanstack/eslint-plugin-query
 ```
 
 ESLint Flat Config(`eslint.config.js`)에 권장 규칙을 추가한다. 이 규칙들은 흔한 실수를 사전에 잡아준다.
@@ -295,7 +303,7 @@ const {
 개발 중에는 항상 ReactQueryDevtools를 켠다.
 
 ```bash
-npm i @tanstack/react-query-devtools
+{pm} i @tanstack/react-query-devtools
 ```
 
 ```tsx
@@ -327,6 +335,21 @@ Provider 설정·`ReactQueryStreamedHydration`·전체 예제는 [references/nex
 - mutation 성공 후 화면이 안 바뀐다 → `onSuccess`에서 `invalidateQueries`를 호출했는지 확인한다.
 - `QueryClient`를 컴포넌트 안에서 `new QueryClient()`로 만들고 있다 → 리렌더마다 캐시가 초기화된다. 모듈 스코프(또는 Next.js에서는 `getQueryClient` 헬퍼)에 둔다.
 - `data`가 `undefined`라 화면이 깨진다 → `isPending` 또는 `isLoading` 분기를 먼저 검사한 후에 `data`를 쓴다.
+
+## 작성 체크리스트 (MANDATORY)
+
+쿼리/뮤테이션 코드를 작성하거나 수정한 뒤, 종료 전에 아래를 확인한다.
+
+- [ ] `queryFn`이 참조하는 외부 변수가 **전부** `queryKey`에 들어 있다
+- [ ] `queryKey`가 `[도메인, 식별자, 파라미터]` 순의 배열이다
+- [ ] 안정적인 데이터에는 `staleTime`을 명시했다 (기본 0이면 매 마운트마다 재요청)
+- [ ] `useMutation` 성공 후 `invalidateQueries` 또는 `setQueryData`로 캐시를 갱신한다
+- [ ] `QueryClient`를 컴포넌트 안에서 `new QueryClient()`로 만들지 않았다
+      (모듈 스코프 또는 Next.js의 `getQueryClient` 헬퍼)
+- [ ] `data`를 쓰기 전에 `isPending`(또는 `isLoading`) 분기를 먼저 처리한다
+- [ ] `ReactQueryDevtools`가 개발 환경에서만 렌더링된다
+- [ ] `@tanstack/eslint-plugin-query`의 권장 규칙이 ESLint 설정에 들어 있다
+- [ ] 타입체크와 lint가 통과한다 (`tsc --noEmit`, `eslint`)
 
 ## 추가 자료
 

@@ -7,15 +7,15 @@ CSR에 없는 두 가지 고려사항이 있다.
 
 `@tanstack/react-query-next-experimental`이 이 두 가지를 처리한다.
 
-> Provider 설치/패키지 추가는 `react-next-scaffold` 스킬의 8단계에 동일하게 들어 있다. 이미 적용된 프로젝트라면 이 문서의 패턴 부분만 보면 된다.
+> 아래 "Provider 구성"이 `src/providers/query.tsx`의 **정본**이다. `react-next-scaffold` 스킬의 8단계도 이 코드를 참조한다. 이미 Provider가 구성된 프로젝트라면 이 절을 건너뛰고 패턴 부분부터 보면 된다.
 
 ---
 
 ## Provider 구성
 
 ```bash
-npm i @tanstack/react-query @tanstack/react-query-next-experimental
-npm i -D @tanstack/eslint-plugin-query
+{pm} i @tanstack/react-query @tanstack/react-query-next-experimental
+{pm} i -D @tanstack/eslint-plugin-query
 ```
 
 ```tsx

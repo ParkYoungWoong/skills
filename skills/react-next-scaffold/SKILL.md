@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.2.3
+  version: 1.2.4
 ---
 
 # Next.js React Project Scaffold
@@ -188,48 +188,23 @@ Next.js에서는 `@tanstack/react-query-next-experimental` 패키지를 추가�
 2. ESLint Flat Config(`eslint.config.js`)에 TanStack Query 플러그인 추가 (5단계 참조)
 
 3. `src/providers/query.tsx` 생성:
-   ```tsx
-   'use client'
-   import {
-     QueryClient,
-     QueryClientProvider,
-     isServer,
-   } from '@tanstack/react-query'
-   import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental'
 
-   function makeQueryClient() {
-     return new QueryClient({
-       defaultOptions: {
-         queries: {
-           // 클라이언트의 즉시 다시 요청에 대응하도록, 기본 캐싱 시간(min)을 지정
-           staleTime: 60 * 1000
-         }
-       }
-     })
-   }
+   **이 파일의 정본은 `tanstack-react-query-use` 스킬의
+   `references/nextjs.md` "Provider 구성" 절이다.** 같은 플러그인에 함께 설치되므로
+   그 문서를 열어 코드를 그대로 옮겨 쓴다. 여기에 사본을 두지 않는 이유는
+   두 곳이 갈라지는 것을 막기 위해서다.
 
-   let browserQueryClient: QueryClient | undefined = undefined
+   요약하면 이런 구조다.
 
-   function getQueryClient() {
-     if (isServer) {
-       return makeQueryClient()
-     } else {
-       if (!browserQueryClient) browserQueryClient = makeQueryClient()
-       return browserQueryClient
-     }
-   }
+   - `'use client'` 지시어로 시작한다
+   - `makeQueryClient()`에서 `defaultOptions.queries.staleTime`을 지정한다
+     (SSR 직후 클라이언트가 즉시 재요청하는 것을 막는다)
+   - `getQueryClient()`가 `isServer`를 보고 서버에서는 매 요청마다 새 인스턴스를,
+     브라우저에서는 모듈 스코프 인스턴스 하나를 재사용한다
+   - `QueryProvider`가 `<QueryClientProvider>` 안에
+     `<ReactQueryStreamedHydration>`을 감싼다
 
-   export function QueryProvider({ children }: { children: React.ReactNode }) {
-     const queryClient = getQueryClient()
-     return (
-       <QueryClientProvider client={queryClient}>
-         <ReactQueryStreamedHydration>
-           {children}
-         </ReactQueryStreamedHydration>
-       </QueryClientProvider>
-     )
-   }
-   ```
+   컴포넌트 안에서 `new QueryClient()`를 직접 만들거나 `useState`로 감싸지 않는다.
 
 4. `src/app/layout.tsx`에서 `QueryProvider`로 `children`을 래핑:
    ```tsx
@@ -249,6 +224,9 @@ Next.js에서는 `@tanstack/react-query-next-experimental` 패키지를 추가�
      )
    }
    ```
+
+TanStack Query의 실제 사용 패턴(`useQuery` / `useMutation` / SSR 프리페치)은
+`tanstack-react-query-use` 스킬을 따른다.
 
 ### 9단계: 최종 검증 (MANDATORY)
 

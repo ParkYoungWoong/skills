@@ -183,7 +183,7 @@ export function MovieList({ queryText }: { queryText: string }) {
 위 패턴을 라이브러리로 줄이려면:
 
 ```bash
-npm i react-intersection-observer
+{pm} i react-intersection-observer
 ```
 
 ```tsx
