@@ -18,6 +18,8 @@
 
 ## 1. 라우트에 `meta` 지정
 
+`routes` 배열의 일부만 적으면 다음과 같다.
+
 ```ts
 routes: [
   {
@@ -82,7 +84,10 @@ export const guestOnly: RouteGuard = {
 
 ```ts
 // src/routes/guards/index.ts
-import type { RouteLocationNormalizedGeneric, RouteLocationRaw } from 'vue-router'
+import type {
+  RouteLocationNormalizedGeneric,
+  RouteLocationRaw
+} from 'vue-router'
 import router from '@/routes'
 import { requiresAuth } from './requiresAuth'
 import { guestOnly } from './guestOnly'
@@ -108,16 +113,17 @@ export interface RouteGuard {
 
 ## 4. 진입점에서 가드 파일 가져오기 (빠뜨리기 쉬움)
 
+기존 import(예: `./style.css`)와 `.use()` 체인은 유지하고 가드 import 한 줄만 추가한다.
+
 ```ts
 // src/main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './routes'
-import './routes/guards'
+import router from '@/routes'
+import '@/routes/guards'
+import './style.css'
 
-createApp(App)
-  .use(router)
-  .mount('#app')
+createApp(App).use(router).mount('#app')
 ```
 
 **이 import를 빠뜨리면 `router.beforeEach`가 호출되지 않아 가드가 전혀 동작하지 않는다.**
@@ -136,7 +142,8 @@ const router = useRouter()
 
 function handleSubmit(event: Event) {
   const formData = new FormData(event.target as HTMLFormElement)
-  const { email, password } = Object.fromEntries(formData) as Record<string, string>
+  const entries = Object.fromEntries(formData) as Record<string, string>
+  const { email, password } = entries
   if (email && password) {
     localStorage.setItem('accessToken', 'abcd1234')
     const redirectTo = (route.query.redirectTo as string) || '/'
@@ -148,8 +155,14 @@ function handleSubmit(event: Event) {
 <template>
   <h1>Sign In page!</h1>
   <form @submit.prevent="handleSubmit">
-    <input name="email" type="email" placeholder="Email" />
-    <input name="password" type="password" placeholder="Password" />
+    <input
+      name="email"
+      type="email"
+      placeholder="Email" />
+    <input
+      name="password"
+      type="password"
+      placeholder="Password" />
     <button type="submit">로그인</button>
   </form>
 </template>

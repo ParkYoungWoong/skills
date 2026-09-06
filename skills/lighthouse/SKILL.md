@@ -1,28 +1,41 @@
 ---
 name: lighthouse
-description: (heropy) Use when analyzing web page performance, accessibility, best practices, or SEO using Google Lighthouse. Runs LHCI CLI locally, parses results, and suggests improvements with optional code fixes.
+description: (heropy) Use when analyzing web page performance, accessibility, best practices, or SEO with Google Lighthouse (LHCI CLI or chrome-devtools MCP). 사용자가 "lighthouse", "라이트하우스", "성능 측정", "접근성 점검", "SEO 점검", "웹 바이탈"을 언급할 때도 이 스킬을 따른다.
 model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.2.0
+  version: 1.3.0
 ---
 
 # Lighthouse Audit
 
 Google Lighthouse를 로컬에서 실행하여 웹 페이지의 성능, 접근성, SEO 등을 분석하고 개선점을 제안하는 스킬.
 
+요구사항: LHCI 경로는 Node.js 18.20+ (내장 Lighthouse 12 기준), chrome-devtools MCP 경로는 Node.js 22.19+ (내장 Lighthouse 13 기준)
+
+> `{pm}`은 프로젝트의 lock 파일로 판별한 패키지 매니저로 대체한다.
+> `pnpm-lock.yaml` -> `pnpm`, `yarn.lock` -> `yarn`, `bun.lockb` 또는 `bun.lock` -> `bun`, `package-lock.json` 또는 lock 파일 없음 -> `npm`.
+> `{pmx}`는 해당 패키지 매니저의 실행 명령으로 대체한다. `npm` -> `npx`, `pnpm` -> `pnpm dlx`, `yarn` -> `yarn dlx`, `bun` -> `bunx`.
+
 ## 동작 흐름
 
 ### 0단계: 실행 경로 선택
 
-기본 경로는 LHCI(`npx @lhci/cli`)다. 구성 파일 기반 실행, 다중 URL, 다회 측정, CI 연동이 모두 되고 결과를 JSON으로 남기므로 6단계 파싱이 그대로 이어진다.
+기본 경로는 LHCI(`{pmx} @lhci/cli`)다. 구성 파일 기반 실행, 다중 URL, 다회 측정, CI 연동이 모두 되고 결과를 JSON으로 남기므로 6단계 파싱이 그대로 이어진다.
 
-다만 아래 중 하나에 해당하고 `chrome-devtools` MCP의 `lighthouse_audit` 툴을 쓸 수 있으면 그쪽이 낫다. 이 경우 1~5단계를 건너뛰고 툴 결과로 바로 6단계로 간다.
+`chrome-devtools` MCP의 `lighthouse_audit` 툴은 accessibility, seo, best-practices, agentic-browsing만 측정하고 **performance는 측정하지 않는다.** 따라서 성능 측정이 필요 없는 경우(접근성, SEO, 모범 사례만 볼 때)에 한해, 아래 중 하나에 해당하고 툴을 쓸 수 있으면 MCP 경로를 택한다. 성능이 포함되면 항상 LHCI로 간다.
 
 - 단일 URL을 1회만 측정하면 되는 경우
-- `npx`로 패키지를 내려받을 수 없는 환경
+- `{pmx}`로 패키지를 내려받을 수 없는 환경
 - 로그인이 필요하거나 특정 상호작용 이후 상태를 측정해야 하는 경우 (MCP로 먼저 이동/로그인한 뒤 감사)
+
+MCP 경로로 실행할 때는 1~5단계를 건너뛰고 다음을 지킨다:
+
+- `pageId`는 필수다. `mode`는 `navigation`(기본값, 페이지를 다시 불러와 측정) 또는 `snapshot`(현재 상태 그대로 측정)이다
+- `device`를 반드시 명시한다. 기본값이 `desktop`이라 LHCI 기본(모바일)과 반대이므로, 모바일 결과가 필요하면 `device: "mobile"`을 준다
+- 툴이 반환하는 `summary`에는 카테고리 점수와 통과/실패 개수만 있다. 함께 반환되는 `reports` 중 `.json` 파일을 읽어 6단계 파싱을 그대로 적용한다. 리포트 위치를 고정하려면 `outputDirPath`를 지정한다
+- 내장 Lighthouse가 13이므로 7단계 표의 "Lighthouse 13 대응 ID" 열을 기준으로 감사 항목을 읽는다
 
 LHCI로도 인증 뒤 페이지를 측정할 수 있지만 `--puppeteerScript`로 별도 스크립트를 작성해야 한다.
 
@@ -68,11 +81,11 @@ curl -s -o /dev/null -w "%{http_code}" {URL}
 
 | 프레임워크 | 빌드 명령 | 프리뷰 명령 | 기본 포트 |
 |-----------|----------|------------|----------|
-| Vite (React, Vue 등) | `npm run build` | `npm run preview` | `4173` |
-| Next.js | `npm run build` | `npm run start` | `3000` |
-| Nuxt | `npm run build` | `npm run preview` | `3000` |
-| SvelteKit | `npm run build` | `npm run preview` | `4173` |
-| Angular | `npm run build` | `npx serve dist/` | `3000` |
+| Vite (React, Vue 등) | `{pm} run build` | `{pm} run preview` | `4173` |
+| Next.js | `{pm} run build` | `{pm} run start` | `3000` |
+| Nuxt | `{pm} run build` | `{pm} run preview` | `3000` |
+| SvelteKit | `{pm} run build` | `{pm} run preview` | `4173` |
+| Angular | `{pm} run build` | `{pmx} serve dist/` | `3000` |
 
 프리뷰 서버 포트 확인 순서:
 1. `package.json`의 해당 스크립트에서 `--port`, `-p` 옵션 파싱
@@ -103,13 +116,13 @@ Chrome이 설치되어 있지 않으면 사용자에게 설치를 안내하고 �
 
 ### 4단계: LHCI 구성 파일 감지
 
-프로젝트 루트에서 LHCI 구성 파일이 있는지 확인한다. 다음 파일명을 순서대로 탐색한다:
+프로젝트 루트에서 LHCI 구성 파일이 있는지 확인한다. 다음 파일명을 순서대로 탐색한다. 점(`.`)으로 시작하지 않는 이름도 자동 인식된다:
 
-- `.lighthouserc.js`
-- `.lighthouserc.cjs`
-- `.lighthouserc.json`
-- `.lighthouserc.yml`
-- `.lighthouserc.yaml`
+- `.lighthouserc.js` / `lighthouserc.js`
+- `.lighthouserc.cjs` / `lighthouserc.cjs`
+- `.lighthouserc.json` / `lighthouserc.json`
+- `.lighthouserc.yml` / `lighthouserc.yml`
+- `.lighthouserc.yaml` / `lighthouserc.yaml`
 
 구성 파일이 존재하는 경우:
 - 해당 파일의 설정을 우선 적용한다. `lhci collect` 실행 시 `--config` 플래그 없이도 LHCI가 자동으로 인식한다
@@ -122,7 +135,7 @@ Chrome이 설치되어 있지 않으면 사용자에게 설치를 안내하고 �
 
 ### 5단계: Lighthouse 실행
 
-`npx @lhci/cli`로 Lighthouse를 실행한다. `lhci collect` 명령은 Lighthouse를 실행하고 결과를 `.lighthouseci/` 디렉토리에 JSON 파일로 저장한다.
+`{pmx} @lhci/cli`로 Lighthouse를 실행한다. `lhci collect` 명령은 Lighthouse를 실행하고 결과를 `.lighthouseci/` 디렉토리에 JSON 파일로 저장한다.
 
 **Lighthouse CLI의 플래그를 그대로 쓰면 안 된다.** `lhci collect`는 `--only-categories`, `--chrome-flags`, `--preset`을 지원하지 않는다. yargs가 strict 모드가 아니라 **에러 없이 조용히 무시**되므로, 예를 들어 `--preset=desktop`을 넘기면 모바일 에뮬레이션 결과를 데스크톱 결과라고 보고하게 된다.
 
@@ -131,7 +144,7 @@ Lighthouse 쪽 설정은 전부 `--settings.*`(또는 구성 파일의 `ci.colle
 구성 파일이 없는 경우의 기본 실행 명령:
 
 ```bash
-npx @lhci/cli collect \
+{pmx} @lhci/cli collect \
   --url={URL1} \
   --url={URL2} \
   --numberOfRuns=3 \
@@ -143,10 +156,10 @@ npx @lhci/cli collect \
 
 구성 파일이 있는 경우, 구성 파일에 정의되지 않은 옵션만 CLI 플래그로 추가한다.
 
-`lhci collect`가 실제로 지원하는 주요 플래그: `--url`, `--numberOfRuns`(`-n`), `--settings`, `--config`, `--chromePath`, `--puppeteerScript`, `--puppeteerLaunchOptions`, `--staticDistDir`, `--startServerCommand`, `--headful`, `--additive`. 확실하지 않으면 `npx @lhci/cli collect --help`로 확인한다.
+`lhci collect`가 실제로 지원하는 주요 플래그: `--url`, `--numberOfRuns`(`-n`), `--settings`, `--config`, `--no-lighthouserc`, `--chromePath`, `--puppeteerScript`, `--puppeteerLaunchOptions`, `--staticDistDir`, `--isSinglePageApplication`, `--startServerCommand`, `--startServerReadyPattern`, `--startServerReadyTimeout`, `--headful`, `--additive`. 확실하지 않으면 `{pmx} @lhci/cli collect --help`로 확인한다.
 
 - `--numberOfRuns`: LHCI 기본값은 3이다. Lighthouse 점수는 실행마다 흔들리므로 3회 이상을 권장하고, 빠른 확인이 필요할 때만 1로 줄인다
-- 결과 파일은 `.lighthouseci/` 디렉토리에 `lhr-{timestamp}.json` 형식으로 저장된다
+- 결과 파일은 `.lighthouseci/` 디렉토리에 `lhr-{timestamp}.json`과 같은 이름의 `.html`이 쌍으로 저장된다. 파싱 대상은 `lhr-*.json`으로만 고른다
 - LHCI는 Puppeteer로 Chrome을 띄우므로 기본이 headless다. `--headless`를 따로 줄 필요가 없다
 
 디바이스 설정:
@@ -167,12 +180,12 @@ npx @lhci/cli collect \
 
 ### 6단계: 결과 파싱 및 요약
 
-`.lighthouseci/` 디렉토리의 `lhr-*.json`을 읽어서 카테고리별 점수와 개선 항목을 추출한다.
+`.lighthouseci/` 디렉토리의 `lhr-*.json`을 읽어서 카테고리별 점수와 개선 항목을 추출한다. MCP 경로에서는 `lighthouse_audit`이 반환한 `.json` 리포트를 같은 방법으로 읽는다.
 
 여러 번 실행한 경우 **대표 실행 1개를 골라서** 쓴다. `lhci collect`는 median 파일을 따로 만들어 주지 않으므로 직접 고른다.
 
 1. 각 URL별로 `lhr-*.json`을 모은다 (`requestedUrl`로 그룹핑)
-2. 각 파일의 `categories.performance.score`를 뽑아 정렬한다
+2. 각 파일의 `categories.performance.score`를 뽑아 정렬한다 (performance가 없으면 `accessibility`로 대신한다)
 3. 중앙값에 해당하는 파일을 그 URL의 대표 실행으로 삼는다 (짝수 개면 아래쪽)
 4. 이후 모든 점수/감사 항목은 그 대표 파일 하나에서만 읽는다
 
@@ -193,7 +206,7 @@ JSON 파싱 경로:
 - 감사 상세: `audits.{auditId}`에서 `title`, `description`, `score`, `displayValue` 추출
 
 각 카테고리에서 점수가 1 미만인 감사 항목을 `weight` 순으로 정렬하여 상위 항목부터 보고한다.
-Performance 카테고리의 경우 `metricSavings` 또는 `overallSavingsMs` 값이 있으면 예상 절감 효과도 함께 표시한다.
+Performance 카테고리의 경우 `audits.{auditId}.metricSavings`(지표별 절감 ms) 또는 `audits.{auditId}.details.overallSavingsMs` 값이 있으면 예상 절감 효과도 함께 표시한다.
 
 ### 7단계: 개선점 제안
 
@@ -216,18 +229,20 @@ Performance 카테고리의 경우 `metricSavings` 또는 `overallSavingsMs` 값
 
 **Performance 주요 항목:**
 
-| Lighthouse Audit | 일반적 우선순위 | 개선 제안 |
-|-----------------|:---:|-----------|
-| `unsized-images` | 필수 | 이미지에 `width`/`height` 속성 추가 |
-| `largest-contentful-paint` | 필수 | LCP 요소 최적화 (preload, `fetchpriority="high"`) |
-| `cumulative-layout-shift` | 필수 | CLS 개선 (이미지 크기 지정, `font-display: swap`) |
-| `render-blocking-resources` | 권장 | CSS/JS 로딩 최적화 (`async`, `defer`, 동적 import) |
-| `unused-css-rules` / `unused-javascript` | 권장 | 미사용 코드 제거, 코드 스플리팅 |
-| `uses-optimized-images` / `uses-webp-images` | 권장 | 이미지 포맷 변환 (WebP/AVIF), Next.js `<Image>` 활용 |
-| `total-blocking-time` | 권장 | TBT 개선 (코드 스플리팅, Web Worker, 무거운 작업 분리) |
-| `uses-text-compression` | 참고 | gzip/brotli 압축 (서버/호스팅 설정 필요) |
-| `uses-long-cache-ttl` | 참고 | 캐시 헤더 설정 (서버/CDN 설정 필요) |
-| `server-response-time` | 참고 | TTFB 개선 (서버/인프라 영역) |
+감사 ID는 LHCI 내장 Lighthouse 12 기준이다. Lighthouse 13(chrome-devtools MCP 내장)에서는 일부 감사가 insight 감사로 대체됐으므로, 결과 JSON의 `lighthouseVersion`이 13 이상이면 "Lighthouse 13 대응 ID" 열의 ID로 읽는다. 대응 ID가 "동일"이면 12와 13에서 같은 ID다.
+
+| Lighthouse Audit (12) | Lighthouse 13 대응 ID | 일반적 우선순위 | 개선 제안 |
+|-----------------|-----------------|:---:|-----------|
+| `unsized-images` | 동일 | 필수 | 이미지에 `width`/`height` 속성 추가 |
+| `largest-contentful-paint` | 동일 | 필수 | LCP 요소 최적화 (preload, `fetchpriority="high"`) |
+| `cumulative-layout-shift` | 동일 | 필수 | CLS 개선 (이미지 크기 지정, `font-display: swap`) |
+| `render-blocking-resources` | `render-blocking-insight` | 권장 | CSS/JS 로딩 최적화 (`async`, `defer`, 동적 import) |
+| `unused-css-rules` / `unused-javascript` | 동일 | 권장 | 미사용 코드 제거, 코드 스플리팅 |
+| `uses-optimized-images` / `modern-image-formats` | `image-delivery-insight` | 권장 | 이미지 포맷 변환 (WebP/AVIF), Next.js `<Image>` 활용 |
+| `total-blocking-time` | 동일 | 권장 | TBT 개선 (코드 스플리팅, Web Worker, 무거운 작업 분리) |
+| `uses-text-compression` | `document-latency-insight` | 참고 | gzip/brotli 압축 (서버/호스팅 설정 필요) |
+| `uses-long-cache-ttl` | `cache-insight` | 참고 | 캐시 헤더 설정 (서버/CDN 설정 필요) |
+| `server-response-time` | `document-latency-insight` | 참고 | TTFB 개선 (서버/인프라 영역) |
 
 **Accessibility 주요 항목:**
 
@@ -255,7 +270,6 @@ Performance 카테고리의 경우 `metricSavings` 또는 `overallSavingsMs` 값
 | Lighthouse Audit | 일반적 우선순위 | 개선 제안 |
 |-----------------|:---:|-----------|
 | `errors-in-console` | 필수 | 콘솔 에러 해결 |
-| `no-vulnerable-libraries` | 권장 | 취약한 라이브러리 업데이트 |
 | `deprecations` | 권장 | 사용 중단 예정 API 교체 |
 | `is-on-https` | 참고 | HTTPS 적용 확인 (로컬 개발 환경에서는 해당 없음) |
 
@@ -298,6 +312,16 @@ rm -rf ./.lighthouseci
 - 로컬 URL 분석 시 개발 서버가 실행 중이어야 한다. 서버가 꺼져 있으면 시작을 안내하고 대기한다
 - Lighthouse 점수는 실행 환경(네트워크, CPU 등)에 따라 매번 달라질 수 있다. 그래서 기본 `--numberOfRuns`를 3으로 두고 중앙값 실행을 대표로 쓴다
 - Lighthouse CLI 플래그(`--only-categories`, `--chrome-flags`, `--preset`)는 `lhci collect`에서 조용히 무시된다. 반드시 `--settings.*`로 넘긴다
+- chrome-devtools MCP 경로는 performance를 측정하지 않는다. 성능 점수가 필요하면 LHCI를 쓴다
 - 코드 수정은 반드시 사용자 확인 후 진행한다. 자동으로 수정하지 않는다
 - `.gitignore` 수정과 `.lighthouseci/` 삭제는 사용자 확인 후에만 한다
 - 외부 URL 분석 시 네트워크 상태에 따라 결과가 달라질 수 있음을 사용자에게 안내한다
+
+## 함께 보는 스킬
+
+| 필요한 것 | 스킬 |
+|---|---|
+| Vite + React 프로젝트 기반 설정 (Tailwind, 경로 별칭, ESLint + Prettier) | `react-vite-scaffold` |
+| Vite + Vue 프로젝트 기반 설정 (Tailwind, 경로 별칭, ESLint + Prettier) | `vue-vite-scaffold` |
+| Next.js 프로젝트 기반 설정 (ESLint + Prettier, TanStack Query, Tailwind) | `react-next-scaffold` |
+| Vite React 프로젝트를 Next.js로 옮기기 | `react-vite-to-next-migration` |

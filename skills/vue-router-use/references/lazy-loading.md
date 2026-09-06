@@ -9,9 +9,11 @@
 파일로 분리되어 접근 시점에 내려받는다.
 
 **사용자가 가장 먼저 보게 되는 페이지는 어차피 필요하므로 지연 로딩하지 않는다.**
+라우터 파일의 일부만 적으면 다음과 같다.
 
 ```ts
-import HomePage from './pages/HomePage.vue'
+// src/routes/index.ts (일부)
+import HomePage from '@/routes/pages/HomePage.vue'
 
 const router = createRouter({
   // ...
@@ -22,12 +24,12 @@ const router = createRouter({
     },
     {
       path: '/about',
-      component: () => import('./pages/AboutPage.vue')
+      component: () => import('@/routes/pages/AboutPage.vue')
     },
     {
       name: 'Movies',
       path: '/movies',
-      component: () => import('./pages/MoviesPage.vue')
+      component: () => import('@/routes/pages/MoviesPage.vue')
     }
   ]
 })
@@ -67,10 +69,10 @@ router.onError(() => {
 export default router
 ```
 
-레이아웃 제공자에서 이 상태를 쓴다.
+레이아웃 제공자에서 이 상태를 쓴다. 파일의 일부만 적으면 다음과 같다.
 
 ```vue
-<!-- src/routes/layouts/LayoutProvider.vue -->
+<!-- src/routes/layouts/LayoutProvider.vue (일부) -->
 <script setup lang="ts">
 import { isPageLoading } from '@/routes'
 // ...

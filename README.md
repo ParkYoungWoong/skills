@@ -22,6 +22,49 @@ npx skills add ParkYoungWoong/skills
 │  Yes
 ```
 
+**그룹 설치:**
+
+React, Vue 관련 스킬은 그룹으로 묶여 있습니다. 스킬 선택 화면에서 그룹 이름(`React`, `Vue`)에 커서를 두고 스페이스를 누르면 그룹의 모든 스킬이 한 번에 선택됩니다.
+
+```bash
+◇  Select skills to install (space to toggle)
+│  ▾ ○ React
+│    ├─ ○ react-next-scaffold
+│    ├─ ○ react-router-use
+│    ├─ ○ react-vite-scaffold
+│    ├─ ○ react-vite-to-next-migration
+│    ├─ ○ tanstack-react-query-use
+│    └─ ○ zustand-use
+│  ▾ ○ Vue
+│    ├─ ○ pinia-use
+│    ├─ ○ vue-router-use
+│    └─ ○ vue-vite-scaffold
+│  ▾ ○ Other
+│    ├─ ○ kb-bank-styles
+│    └─ ○ lighthouse
+```
+
+선택 화면 없이 설치할 때(`-y` 옵션 또는 AI 에이전트 안에서 실행)는 그룹에 속한 스킬을 `--skill`로 나열합니다.
+
+```bash
+# React 그룹
+npx skills add ParkYoungWoong/skills \
+  --skill react-vite-scaffold \
+  --skill react-next-scaffold \
+  --skill react-vite-to-next-migration \
+  --skill react-router-use \
+  --skill tanstack-react-query-use \
+  --skill zustand-use
+
+# Vue 그룹
+npx skills add ParkYoungWoong/skills \
+  --skill vue-vite-scaffold \
+  --skill vue-router-use \
+  --skill pinia-use
+```
+
+그룹 구성은 [`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json)에서 관리합니다.
+
 상황에 맞게 스킬이 자동으로 감지되거나 다음과 같이 스킬을 직접 호출할 수 있습니다.
 
 **Claude Code 스킬 호출 예시:**
@@ -44,7 +87,7 @@ npx skills add ParkYoungWoong/skills --skill react-vite-scaffold
 - 기존 프로젝트의 누락된 설정 자동 감지 및 보완
 - 기본 포함 항목:
   - Tailwind CSS
-  - ESLint + Prettier (통합 구성)
+  - ESLint + Prettier (통합 구성. Oxlint 프로젝트는 Prettier 단독 구성)
   - 경로 별칭 (`@/*`)
   - `.vscode/settings.json` (저장 시 자동 포매팅)
 - 라우팅, 서버 상태, 전역 상태는 각각 `react-router-use`, `tanstack-react-query-use`, `zustand-use` 스킬로 분리
@@ -91,9 +134,9 @@ npx skills add ParkYoungWoong/skills --skill react-vite-to-next-migration
 npx skills add ParkYoungWoong/skills --skill react-router-use
 ```
 
-- React Router 7 Data Mode (`createBrowserRouter` + `RouterProvider`) 도입
+- React Router 8 Data Mode (`createBrowserRouter` + `RouterProvider`) 도입. React 19.2.7 미만 프로젝트는 v7 설치
 - 기본 라우터 골격 자동 생성 (Layout, Header, Home/About 페이지)
-- `react-router-dom` v6 → v7 마이그레이션 지원 (사용자 동의 후)
+- `react-router-dom`에서 `react-router`로 마이그레이션 지원 (사용자 동의 후)
 - 동적 세그먼트 / 중첩 라우팅 / 404 페이지
 - 보호된 경로 (Loader + `redirect`)
 - 페이지 지연 로딩 (`lazy` + `Suspense` + `ErrorBoundary`)
@@ -103,7 +146,7 @@ npx skills add ParkYoungWoong/skills --skill react-router-use
 
 ### [tanstack-react-query-use](./skills/tanstack-react-query-use/SKILL.md)
 
-React / Next.js 프로젝트에서 TanStack Query(v5)로 서버 데이터를 가져오고 캐싱·동기화하는 코드를 작성합니다.
+React / Next.js 프로젝트에서 TanStack Query(v5)로 서버 데이터를 가져오고 캐싱, 동기화하는 코드를 작성합니다.
 
 ```bash
 npx skills add ParkYoungWoong/skills --skill tanstack-react-query-use
@@ -113,23 +156,24 @@ npx skills add ParkYoungWoong/skills --skill tanstack-react-query-use
 - `queryKey` 규칙 및 `staleTime` / `gcTime` 캐시 전략
 - 낙관적 업데이트(Optimistic Update) 패턴
 - 무한 스크롤 / 페이지네이션 구현
-- Next.js App Router 환경 지원 (`useSuspenseQuery` + SSR)
+- Next.js App Router 환경 지원 (서버 `prefetchQuery` + `HydrationBoundary` 기본, 스트리밍 하이드레이션은 대안)
 - ReactQueryDevtools 및 `@tanstack/eslint-plugin-query` 설정
 - 작성 후 확인용 체크리스트 제공
 
 ### [zustand-use](./skills/zustand-use/SKILL.md)
 
-React 프로젝트에서 Zustand로 전역 상태(스토어)를 설계·작성하는 표준 패턴을 따릅니다.
+React 프로젝트에서 Zustand로 전역 상태(스토어)를 설계하고 작성하는 표준 패턴을 따릅니다.
 
 ```bash
 npx skills add ParkYoungWoong/skills --skill zustand-use
 ```
 
 - 단일 파일(`src/stores/<이름>.ts`) 스토어 정의, `use이름Store` 명명 규칙
-- 액션을 상태와 같은 레벨에 정의하는 패턴, 상태 초기화/삭제 패턴
-- 선택자(Selector)로 한 번에 하나씩 구독, 묶어서 구독할 때만 `useShallow`
+- TypeScript: `combine` 미들웨어로 상태 타입 추론, 추론되지 않는 값만 `satisfies`/`as`로 명시
+- 선택자(Selector)로 훅 호출 한 번에 하나씩 구독, 파생 값은 선택자에서 계산
+- 상태 초기화(`initialState` + `resetState`), 액션 간 호출(함수 호이스팅), 비동기 액션 패턴
 - 미들웨어 합성 순서: `devtools(persist(subscribeWithSelector(immer(combine(...)))))`
-- TypeScript: `combine` 추론 방식 / JavaScript: 순수 `create` 최소 템플릿
+- `persist` 옵션 정리 (`storage`, `partialize`, `onRehydrateStorage`, `skipHydration`, `version`, `migrate`, `merge`)
 - 트리거 입력('OO 스토어 생성')으로 스토어 폴더 탐색/생성 및 기본 템플릿 파일 자동 생성
 - 비동기 액션 / 컴포넌트 외부 사용 패턴
 

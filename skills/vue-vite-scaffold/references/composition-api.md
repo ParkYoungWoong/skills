@@ -40,8 +40,23 @@ console.log(user.value.name)
 
 ### 요소 참조
 
-`ref`의 이름을 템플릿의 `ref` 속성값과 같게 두면 DOM 요소가 담긴다.
-마운트 전에는 `null`이므로 접근 시점에 주의한다.
+`useTemplateRef()`에 템플릿의 `ref` 속성값을 넘기면 DOM 요소가 담긴다 (Vue 3.5+).
+타입은 템플릿에서 추론되므로 직접 적지 않는다. 마운트 전에는 `null`이므로 접근 시점에 주의한다.
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef, onMounted } from 'vue'
+
+const inputEl = useTemplateRef('inputEl')
+onMounted(() => inputEl.value?.focus())
+</script>
+
+<template>
+  <input ref="inputEl" />
+</template>
+```
+
+Vue 3.5 미만이라면 같은 이름의 `ref`를 선언하는 방식을 쓴다.
 
 ```vue
 <script setup lang="ts">
@@ -50,10 +65,6 @@ import { ref, onMounted } from 'vue'
 const inputEl = ref<HTMLInputElement | null>(null)
 onMounted(() => inputEl.value?.focus())
 </script>
-
-<template>
-  <input ref="inputEl" />
-</template>
 ```
 
 ## 템플릿 문법
@@ -80,7 +91,11 @@ onMounted(() => inputEl.value?.focus())
 ```vue
 <template>
   <!-- 권장: computed로 미리 거른다 -->
-  <li v-for="user in activeUsers" :key="user.id">{{ user.name }}</li>
+  <li
+    v-for="user in activeUsers"
+    :key="user.id">
+    {{ user.name }}
+  </li>
 </template>
 ```
 
@@ -89,13 +104,25 @@ onMounted(() => inputEl.value?.focus())
 ```vue
 <template>
   <!-- 배열: (값, 인덱스) -->
-  <li v-for="(item, i) in items" :key="item.id">{{ i }}: {{ item.name }}</li>
+  <li
+    v-for="(item, i) in items"
+    :key="item.id">
+    {{ i }}: {{ item.name }}
+  </li>
 
   <!-- 객체: (값, 키, 인덱스) -->
-  <li v-for="(value, key, i) in user" :key="key">{{ key }}: {{ value }}</li>
+  <li
+    v-for="(value, key, i) in user"
+    :key="key">
+    {{ key }}: {{ value }}
+  </li>
 
   <!-- 숫자 범위: 1부터 시작 -->
-  <li v-for="n in 5" :key="n">{{ n }}</li>
+  <li
+    v-for="n in 5"
+    :key="n">
+    {{ n }}
+  </li>
 </template>
 ```
 
@@ -152,7 +179,9 @@ onMounted(() => inputEl.value?.focus())
 // 안 좋음: watch로 파생 값을 만든다. 상태가 둘로 늘고 동기화 책임이 사람에게 온다
 const price = ref(1000)
 const formattedPrice = ref('')
-watch(price, v => (formattedPrice.value = v.toLocaleString()), { immediate: true })
+watch(price, v => (formattedPrice.value = v.toLocaleString()), {
+  immediate: true
+})
 
 // 좋음: 상태는 하나로 유지된다. immediate도 필요 없다
 const formatted = computed(() => price.value.toLocaleString())
@@ -172,7 +201,10 @@ watch(count, (newVal, oldVal) => {})
 watch([a, b], ([newA, newB], [oldA, oldB]) => {})
 
 // 게터 감시: 객체의 특정 속성만
-watch(() => user.value.name, name => {})
+watch(
+  () => user.value.name,
+  name => {}
+)
 
 // 깊은 감시: 중첩 속성 변화까지 (비용이 크므로 필요할 때만)
 watch(user, () => {}, { deep: true })
@@ -188,6 +220,15 @@ stop()
 watch(id, (newId, oldId, onCleanup) => {
   const controller = new AbortController()
   onCleanup(() => controller.abort())
+  fetch(`/api/${newId}`, { signal: controller.signal })
+})
+
+// 정리 콜백 (Vue 3.5+): onWatcherCleanup은 콜백 안 어디서든 호출할 수 있다
+import { onWatcherCleanup } from 'vue'
+
+watch(id, newId => {
+  const controller = new AbortController()
+  onWatcherCleanup(() => controller.abort())
   fetch(`/api/${newId}`, { signal: controller.signal })
 })
 ```

@@ -3,7 +3,8 @@
 Vue Router **5부터** 페이지 컴포넌트의 파일 경로에서 라우트를 자동으로 만들어 준다.
 별도 패키지였던 `unplugin-vue-router`가 통합된 것이라 추가로 설치할 패키지는 없다.
 
-> Vue Router 4에서는 쓸 수 없다.
+> Vue Router 4에서는 별도 패키지 `unplugin-vue-router`를 설치하고 `unplugin-vue-router/vite`에서
+> 플러그인을 가져와야 한다. 이 문서는 5의 통합 플러그인 기준이다.
 
 ## 1. 번들러 플러그인 등록
 
@@ -17,17 +18,19 @@ import VueRouter from 'vue-router/vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  plugins: [
-    VueRouter(),
-    vue()
-  ]
+  plugins: [VueRouter(), vue()]
 })
 ```
 
 ## 2. 생성된 타입 인식시키기
 
 플러그인 등록 후 개발 서버를 한 번 실행하면 프로젝트 루트에 `typed-router.d.ts`가 생긴다.
+`{pmx} vite build`로도 생성된다. 이 파일은 커밋한다.
 각 라우트의 이름과 경로, 동적 파라미터 타입이 여기에 기록되므로 `include`에 추가한다.
+
+파일이 없는 상태에서 `{pm} run build`를 실행하면 `vite build`보다 먼저 도는 `vue-tsc -b`가
+동적 파라미터 타입(`string | string[]`) 때문에 실패한다. 새로 받은 프로젝트나 방금 전환한 프로젝트는
+개발 서버 또는 `{pmx} vite build`를 한 번 실행해 파일을 만든 뒤 `{pm} run build`를 돌린다.
 
 ```json
 // tsconfig.app.json
@@ -68,6 +71,10 @@ export default defineConfig({
 `movies/[movieId].vue`는 `movies.vue`의 자식 라우트가 되어, `movies.vue`에 작성한
 `<RouterView />` 위치에 출력된다. `children` 속성을 폴더 구조가 대신한다.
 
+기본 골격(4단계)에서 전환하면 `src/routes/pages`의 파일을 `src/pages`로 옮기고 빈 폴더를 삭제한다.
+파일 이름은 경로 이름으로 바꾼다(`HomePage.vue` -> `index.vue`, `AboutPage.vue` -> `about.vue`).
+레이아웃, 가드, `TheHeader`는 그대로 둔다. `TheHeader`의 링크는 경로 문자열이라 바뀌지 않는다.
+
 ## 4. 라우터 구성
 
 ```ts
@@ -86,7 +93,7 @@ export default router
 ## 5. 지연 로딩
 
 모든 페이지에 이미 적용돼 있다. 반대로 첫 화면처럼 즉시 필요한 페이지는
-`importMode` 옵션에서 `'sync'`를 반환해 초기 번들에 포함시킨다.
+`importMode` 옵션에서 `'sync'`를 반환해 초기 번들에 포함시킨다. `vite.config.ts`의 일부만 적으면 다음과 같다.
 
 ```ts
 export default defineConfig({
@@ -153,7 +160,7 @@ const movieId = route.params.movieId
 페이지 파일 이름은 곧 접근 경로라서 `about.vue`처럼 한 단어일 수밖에 없다.
 
 **프로젝트 전체에서 끄지 말고 페이지 폴더에서만 끈다.** 플랫 구성은 뒤에 오는 객체가
-앞을 덮어쓰므로, 규칙을 켜는 `eslint-plugin-vue` 프리셋보다 **뒤에** 써야 한다.
+앞을 덮어쓰므로, 규칙을 켜는 `eslint-plugin-vue` 프리셋보다 **뒤에** 써야 한다. 설정 파일의 일부만 적으면 다음과 같다.
 
 ```js
 // eslint.config.js
@@ -168,12 +175,14 @@ export default defineConfigWithVueTs(
 )
 ```
 
-JavaScript 구성이라면 `definePage`가 `no-undef`에 걸리므로 전역으로도 선언한다.
+JavaScript 구성이라면 `definePage`가 `no-undef`에 걸리므로 전역으로도 선언한다. 설정 객체의 일부만 적으면 다음과 같다.
 
 ```js
 {
   languageOptions: {
-    globals: { definePage: 'readonly' }
+    globals: {
+      definePage: 'readonly'
+    }
   }
 }
 ```

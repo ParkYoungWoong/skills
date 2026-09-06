@@ -148,8 +148,12 @@ function handler(event: Event) {
 ```vue
 <!-- 자식 -->
 <template>
-  <li v-for="item in items" :key="item.id">
-    <slot :item="item" :index="item.id" />
+  <li
+    v-for="item in items"
+    :key="item.id">
+    <slot
+      :item="item"
+      :index="item.id" />
   </li>
 </template>
 ```
