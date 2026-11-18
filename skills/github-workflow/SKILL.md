@@ -5,7 +5,7 @@ model: sonnet
 effort: high
 metadata:
   author: ParkYoungWoong
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Git/GitHub 작업
@@ -127,7 +127,7 @@ SSH나 기존 자격 증명으로 이미 푸시가 되던 환경은 건드리지
 
 ### 커밋 작성자와 기본값
 
-비어 있는 값만 `git config --global`로 채운다. 값은 `gh api user --jq '.login, .name, .id'`로 얻는다.
+적용되는 값이 없을 때만(시스템, 전역 설정 모두 비어 있을 때) `git config --global`로 채운다. 값은 `gh api user --jq '.login, .name, .id'`로 얻는다.
 
 | 설정 | 값 | 이유 |
 | --- | --- | --- |

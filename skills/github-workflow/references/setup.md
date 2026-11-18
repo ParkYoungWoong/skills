@@ -15,7 +15,7 @@ for c in brew apt-get dnf pacman zypper apk; do command -v "$c" >/dev/null 2>&1 
 sudo -n true 2>/dev/null && echo "sudo=nopass" || echo "sudo=needs-password"
 if [ "$(uname -s)" = Darwin ] && ! xcode-select -p >/dev/null 2>&1; then echo "clt=missing (do not run git)"; else git --version 2>/dev/null || echo "git=missing"; fi
 if command -v gh >/dev/null 2>&1; then gh --version | head -1; a=$(gh auth status --json hosts --jq '.hosts[][] | [.login, .active, .state] | @tsv' 2>/dev/null || gh auth status 2>&1 | grep -i account); echo "gh_accounts=${a:-none}"; else echo "gh=missing"; fi
-for k in user.name user.email init.defaultBranch pull.rebase core.quotepath github.user; do echo "$k=$(git config --global --get "$k" 2>/dev/null)"; done
+for k in user.name user.email init.defaultBranch pull.rebase core.quotepath github.user; do echo "$k=$(git config --show-origin --get "$k" 2>/dev/null)"; done
 git config --show-origin --get-regexp '^credential\.' 2>/dev/null
 if git rev-parse --show-toplevel 2>/dev/null; then git status -sb | head -1; git remote -v; echo "commits=$(git rev-list --count HEAD 2>/dev/null || echo 0) changes=$(git status --porcelain | wc -l | tr -d ' ')"; else echo "repo=no"; fi
 curl -sI -m 5 https://github.com >/dev/null && echo "network=ok" || echo "network=fail"
@@ -24,6 +24,7 @@ curl -sI -m 5 https://github.com >/dev/null && echo "network=ok" || echo "networ
 - macOS의 `/usr/bin/git`은 명령줄 도구(Command Line Tools)가 없으면 설치 창을 띄우는 껍데기다. `clt=missing`이면 `git`을 실행하지 않고 설치로 간다.
 - `gh auth status --json`이 없는 오래된 gh는 텍스트 출력으로 대신한다.
 - `git rev-parse --show-toplevel`이 대상 폴더와 다르면 상위 폴더 저장소의 일부다.
+- Git 설정 값 앞에는 그 값을 정한 파일이 붙는다. Git for Windows는 설치할 때 `pull.rebase`, `core.autocrlf` 같은 값을 시스템 설정에 넣어 두므로 전역 설정이 비어 있어도 값이 있을 수 있다.
 
 ### PowerShell (Windows PowerShell 5.1, PowerShell 7)
 
@@ -32,7 +33,7 @@ curl -sI -m 5 https://github.com >/dev/null && echo "network=ok" || echo "networ
 "admin=$(([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))"
 foreach ($c in 'winget','scoop','choco','git','gh','pwsh','wsl') { $p = Get-Command $c -ErrorAction SilentlyContinue; if ($p) { "$c=$($p.Source)" } else { "$c=missing" } }
 foreach ($f in "$env:ProgramFiles\Git\cmd\git.exe", "$env:ProgramFiles\GitHub CLI\gh.exe", "$env:ProgramFiles\Git\bin\bash.exe") { if (Test-Path $f) { "exists=$f" } }
-if (Get-Command git -ErrorAction SilentlyContinue) { git --version; foreach ($k in 'user.name','user.email','init.defaultBranch','pull.rebase','core.quotepath','core.autocrlf','github.user') { "$k=$(git config --global --get $k)" }; git config --show-origin --get-regexp '^credential\.' }
+if (Get-Command git -ErrorAction SilentlyContinue) { git --version; foreach ($k in 'user.name','user.email','init.defaultBranch','pull.rebase','core.quotepath','core.autocrlf','github.user') { "$k=$(git config --show-origin --get $k)" }; git config --show-origin --get-regexp '^credential\.' }
 if (Get-Command gh -ErrorAction SilentlyContinue) { gh --version | Select-Object -First 1; gh auth status --json hosts --jq '.hosts[][] | [.login, .active, .state] | @tsv'; if ($LASTEXITCODE -ne 0) { gh auth status } }
 if (Get-Command git -ErrorAction SilentlyContinue) { git rev-parse --show-toplevel 2>$null; if ($LASTEXITCODE -eq 0) { git status -sb | Select-Object -First 1; git remote -v } else { 'repo=no' } }
 ```
