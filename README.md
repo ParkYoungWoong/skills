@@ -40,6 +40,7 @@ React, Vue 관련 스킬은 그룹으로 묶여 있습니다. 스킬 선택 화�
 │    ├─ ○ vue-router-use
 │    └─ ○ vue-vite-scaffold
 │  ▾ ○ Other
+│    ├─ ○ github-workflow
 │    ├─ ○ kb-bank-styles
 │    └─ ○ lighthouse
 ```
@@ -261,3 +262,22 @@ npx skills add ParkYoungWoong/skills --skill kb-bank-styles
 - 홈/송금/내역 페이지 템플릿
 - 기본 폰트는 Pretendard(OFL-1.1), KB금융체는 라이선스 확보 시 옵트인
 - 한국 금융권 UX 컨벤션 반영
+
+### [github-workflow](./skills/github-workflow/SKILL.md)
+
+"깃헙 저장소에 업로드해 줘" 같은 요청 하나로, 아무것도 설정되지 않은 컴퓨터에서도 Git/GitHub 환경을 점검하고 설정한 뒤 업로드와 일상 작업까지 처리합니다.
+
+```bash
+npx skills add ParkYoungWoong/skills --skill github-workflow
+```
+
+- 환경 점검 후 현재 상황을 표 하나로 보고 (OS, 셸, 터미널, Git, GitHub CLI, 로그인 계정, Git 설정, 대상 폴더)
+- macOS / Windows / Linux / WSL별 Git, GitHub CLI 설치 (Homebrew, winget, Scoop, 배포판 패키지 관리자), 설치 직후 PATH 반영과 터미널별 인식 확인
+- GitHub 계정 자동 탐색 (gh 계정, 원격 주소, 키체인/자격 증명 관리자), 찾지 못하거나 후보가 여럿일 때만 질문
+- 브라우저 기반 `gh auth login`과 `gh auth setup-git`으로 git과 gh를 같은 계정에 연결
+- 비어 있는 전역 설정만 채움 (noreply 커밋 메일, `init.defaultBranch`, `pull.rebase`, `core.quotepath`)
+- 업로드 전 비밀 정보 파일, 50MB/100MB 넘는 파일, `.gitignore` 누락 점검 후 비공개 저장소 생성과 푸시
+- 설치, 로그인, 새 저장소처럼 남는 일은 한 번에 묶어 승인, 단계별 진행 표시(`[2/5] ... (1~2분)`)로 오래 걸리는 단계 안내
+- 사용자 수준에 맞춘 설명 (전문가는 결과만, 처음 쓰는 사람은 용어 첫 등장 때만 짧은 풀이)
+- 커밋/푸시, 풀, 브랜치와 풀 리퀘스트, 충돌 해결, 클론, 되돌리기, 오류 메시지별 해결표
+- 강제 푸시, `reset --hard` 같은 기록 삭제 명령과 토큰 출력 금지
